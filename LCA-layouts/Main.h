@@ -7,9 +7,19 @@
 class Main : public wxFrame
 {
 public: // компоненты
-	wxButton* m_btn = nullptr;
-	wxStaticText* m_text = nullptr;
-	wxListBox* m_list = nullptr;
+	wxPanel* panel = nullptr;
+	wxStaticText* text_to_type = nullptr;
+	wxListBox* listb = nullptr;
+
+	wxButton* start = nullptr;
+
+	wxBoxSizer* hbox = nullptr;
+	wxFlexGridSizer* fgs = nullptr;
+
+	wxMenuBar* menubar;
+	wxMenu* type;
+	wxMenu* create;
+	wxMenu* doc;
 
 	wxDECLARE_EVENT_TABLE();
 
@@ -17,7 +27,6 @@ public:
 	Main();
 	~Main();
 
-	void OnButtonClick(wxCommandEvent& evt);
 	void OnChar(wxKeyEvent& evt);
 };
 
