@@ -7,8 +7,10 @@ wxBEGIN_EVENT_TABLE(Main, wxFrame)
 wxEND_EVENT_TABLE()
 
 
-Main::Main() : wxFrame(nullptr, wxID_ANY, "LCA layouts", wxPoint(-1, -1), wxSize(720, 480))
+Main::Main() : wxFrame(nullptr, wxID_ANY, "LCA layouts", wxPoint(-1, -1), wxSize(480, 360))
 {
+	this->SetMinSize(wxSize(360, 240));
+
 	// меню
 	menubar = new wxMenuBar();
 	type = new wxMenu;
@@ -33,7 +35,7 @@ Main::Main() : wxFrame(nullptr, wxID_ANY, "LCA layouts", wxPoint(-1, -1), wxSize
 	//fgs->Add(start);
 
 	//hbox->Add(fgs, 1, wxALL | wxEXPAND, 15);
-	hbox->Add(text_to_type, 1, wxALIGN_TOP | wxALL | wxEXPAND, 50);
+	hbox->Add(text_to_type, 1, wxALIGN_TOP | wxALL | wxEXPAND, 40);
 	hbox->Add(start);
 
 	panel->SetSizer(hbox);
