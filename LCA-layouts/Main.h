@@ -20,17 +20,14 @@ public: // компоненты
 	// Create panel
 	wxPanel* create_panel = nullptr;
 	wxBoxSizer* create_row_sizer = nullptr;
-	
 	map<wxBoxSizer*, wxButton**> keys;
 
-	wxButton** row1;
-	wxGridSizer* row1_sizer = nullptr;
+	bool isKeyPressed = false;
+	wxWindow* previous_key = nullptr;
 
-	wxButton** row2;
-	wxBoxSizer* row2_sizer = nullptr;
-
-	vector<wxButton*> row3;
-	wxBoxSizer* row3_sizer = nullptr;
+	wxButton* analyze_btn = nullptr;
+	wxButton* export_btn = nullptr;
+	wxTextCtrl* layout_name = nullptr;
 
 	// Documentation panel
 	wxPanel* doc_panel = nullptr;
@@ -53,6 +50,7 @@ public:
 
 
 	//void OnChar(wxKeyEvent& evt);
+	void OnKeyClicked(wxCommandEvent& evt);
 };
 
 
