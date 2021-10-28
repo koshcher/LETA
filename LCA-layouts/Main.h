@@ -3,6 +3,9 @@
 
 #include "wx/wx.h"
 #include <wx/notebook.h>
+#include <map>
+
+using namespace std;
 
 class Main : public wxFrame
 {
@@ -16,6 +19,18 @@ public: // компоненты
 
 	// Create panel
 	wxPanel* create_panel = nullptr;
+	wxBoxSizer* create_row_sizer = nullptr;
+	
+	map<wxBoxSizer*, wxButton**> keys;
+
+	wxButton** row1;
+	wxGridSizer* row1_sizer = nullptr;
+
+	wxButton** row2;
+	wxBoxSizer* row2_sizer = nullptr;
+
+	vector<wxButton*> row3;
+	wxBoxSizer* row3_sizer = nullptr;
 
 	// Documentation panel
 	wxPanel* doc_panel = nullptr;
@@ -35,6 +50,7 @@ public: // компоненты
 public:
 	Main();
 	~Main();
+
 
 	//void OnChar(wxKeyEvent& evt);
 };
