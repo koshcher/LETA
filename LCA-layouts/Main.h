@@ -2,12 +2,25 @@
 #define MAIN_H
 
 #include "wx/wx.h"
-#include <wx/caret.h>
+#include <wx/notebook.h>
 
 class Main : public wxFrame
 {
 public: // компоненты
-	wxPanel* panel = nullptr;
+	wxNotebook* notebook = nullptr;
+
+	// Typing panel
+	wxPanel* type_panel = nullptr;
+	wxStaticText* text_to_type = nullptr;
+	wxBoxSizer* type_sizer = nullptr;
+
+	// Create panel
+	wxPanel* create_panel = nullptr;
+
+	// Documentation panel
+	wxPanel* doc_panel = nullptr;
+
+	/*
 	wxStaticText* text_to_type = nullptr;
 	wxListBox* listb = nullptr;
 
@@ -15,19 +28,16 @@ public: // компоненты
 
 	wxBoxSizer* hbox = nullptr;
 	wxFlexGridSizer* fgs = nullptr;
-
-	wxMenuBar* menubar;
-	wxMenu* type;
-	wxMenu* create;
-	wxMenu* doc;
-
+	*/
+	
 	wxDECLARE_EVENT_TABLE();
 
 public:
 	Main();
 	~Main();
 
-	void OnChar(wxKeyEvent& evt);
+	//void OnChar(wxKeyEvent& evt);
 };
+
 
 #endif

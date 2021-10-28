@@ -2,72 +2,47 @@
 
 wxBEGIN_EVENT_TABLE(Main, wxFrame)
 
-	EVT_CHAR(OnChar)
 
 wxEND_EVENT_TABLE()
 
 
-Main::Main() : wxFrame(nullptr, wxID_ANY, "LCA layouts", wxPoint(-1, -1), wxSize(480, 360))
+Main::Main() : wxFrame(nullptr, wxID_ANY, "LCA layouts", wxPoint(-1, -1), wxSize(720, 480))
 {
-	this->SetMinSize(wxSize(360, 240));
+	this->SetMinSize(wxSize(480, 360));
+	//this->SetFont(wxFont(13, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 
-	// меню
-	menubar = new wxMenuBar();
-	type = new wxMenu;
-	create = new wxMenu;
-	doc = new wxMenu;
+	notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(300, 200));
 
-	menubar->Append(type, "&Type");
-	menubar->Append(create, "&Create");
-	menubar->Append(doc, "&Documentation");
-	SetMenuBar(menubar);
+	// Create and add the pages
+	type_panel = new wxPanel(notebook, wxID_ANY);
+	create_panel = new wxPanel(notebook, wxID_ANY);
+	doc_panel = new wxPanel(notebook, wxID_ANY);
 
-	// Panel
-	panel = new wxPanel(this, -1);
+	notebook->AddPage(type_panel, wxT("Typing"), true);
+	notebook->AddPage(create_panel, wxT("Create"), false);
+	notebook->AddPage(doc_panel, wxT("Documentation"), false);
 
-	hbox = new wxBoxSizer(wxVERTICAL);
+	// Typing panel
+	text_to_type = new wxStaticText(type_panel, -1, "Сдесь генерируемый текст i you the me upper down back apple man work juice dad father mum house chicken open door window house rare heigh");
+	type_sizer = new wxBoxSizer(wxVERTICAL);
 
-	text_to_type = new wxStaticText(panel, -1, "Сдесь генерируемый текст i you the me upper down back apple man work juice dad father mum house chicken open door window house rare heigh"); //, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL | wxTE_RICH2 | wxTE_MULTILINE);
-	start = new wxButton(panel, wxID_ANY, "Start"); //, wxPoint(-1, -1), wxSize(100, 100));
+	type_sizer->Add(text_to_type, 1, wxALL | wxEXPAND, 30);
+	type_panel->SetSizer(type_sizer);
 
-//fgs = new wxFlexGridSizer(2, 1, 9, 25);
-	//fgs->Add(text_to_type, wxALL, 15);
-	//fgs->Add(start);
-
-	//hbox->Add(fgs, 1, wxALL | wxEXPAND, 15);
-	hbox->Add(text_to_type, 1, wxALIGN_TOP | wxALL | wxEXPAND, 40);
-	hbox->Add(start);
-
-	panel->SetSizer(hbox);
-
-	//Center();
 	/*
-	panel = new wxPanel(this, -1);
-	wxBoxSizer* hbox = new wxBoxSizer(wxHORIZONTAL); wxHORIZONTAL | wxVERTICAL
-	wxFlexGridSizer* fgs = new wxFlexGridSizer(3, 2, 9, 25);
+	wxImage type_img;
+	type_img.AddHandler(new wxPNGHandler);
+	type_img.LoadFile("img/type_text.png");
 
-	wxStaticText* title = new wxStaticText(panel, -1, wxT("Titleddddddddddddddddddddddddddddddd"), wxPoint(-1, -1), wxSize(-1, -1), wxTE_MULTILINE);
-	wxStaticText* author = new wxStaticText(panel, -1, wxT("Author"));
-	wxStaticText* review = new wxStaticText(panel, -1, wxT("Review"));
+	wxImage create_img;
+	create_img.AddHandler(new wxPNGHandler);
+	create_img.LoadFile("img/writing.png");
 
-	wxTextCtrl* tc1 = new wxTextCtrl(panel, -1);
-	wxTextCtrl* tc2 = new wxTextCtrl(panel, -1);
-	wxTextCtrl* tc3 = new wxTextCtrl(panel, -1, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_MULTILINE);
-
-	fgs->Add(title);
-	fgs->Add(tc1, 1, wxEXPAND);
-	fgs->Add(author);
-	fgs->Add(tc2, 1, wxEXPAND);
-	fgs->Add(review);
-	fgs->Add(tc3, 1, wxEXPAND);
-
-	fgs->AddGrowableRow(2, 1);
-	fgs->AddGrowableCol(1, 1);
-
-	hbox->Add(fgs, 1, wxALL | wxEXPAND, 15);
-	panel->SetSizer(hbox);
-	Center();
+	wxImage documentation_img;
+	documentation_img.AddHandler(new wxPNGHandler);
+	documentation_img.LoadFile("img/documentation.png");
 	*/
+
 }
 
 Main::~Main() {
@@ -75,17 +50,18 @@ Main::~Main() {
 }
 
 
-
+/*
 void Main::OnChar(wxKeyEvent& evt) {
 	if (evt.GetKeyCode() == WXK_SPACE) {
 	}
 	else if (evt.GetKeyCode() == WXK_BACK) {
 
-		text_to_type->SetLabel(text_to_type->GetLabel().erase(text_to_type->GetLabel().Length() - 1));
+		//text_to_type->SetLabel(text_to_type->GetLabel().erase(text_to_type->GetLabel().Length() - 1));
 	}
 	else {
-		text_to_type->SetLabel(text_to_type->GetLabel() + char(evt.GetKeyCode()));
+		//text_to_type->SetLabel(text_to_type->GetLabel() + char(evt.GetKeyCode()));
 	}
 
 	evt.Skip();
 }
+*/

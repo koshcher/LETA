@@ -7,7 +7,7 @@
 class App : public wxApp
 {
 private:
-	Main* m_frame = nullptr;
+	Main* frame = nullptr;
 
 public:
 	virtual bool OnInit();
