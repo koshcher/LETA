@@ -4,8 +4,8 @@ TypePanel::TypePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 {
 	this->SetBackgroundColour(wxColor(87, 87, 87));
 	this->SetForegroundColour(wxColor(200, 200, 200));
-	text_to_type = new wxStaticText(this, -1, "Сдесь генерируемый текст i you the me upper down back apple man work juice dad father mum house chicken open door window house rare heigh");
-	type_word = new wxTextCtrl(this, wxID_ANY);
+	text_to_type = new wxStaticText(this, -1, gen.GenText(10));
+	type_word = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(380, -1));
 
 	vsizer = new wxBoxSizer(wxVERTICAL);
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
@@ -24,9 +24,21 @@ TypePanel::~TypePanel() {
 
 void TypePanel::OnChar(wxKeyEvent& evt) {
 	if (evt.GetKeyCode() == WXK_SPACE) {
-		text_to_type->SetLabel(text_to_type->GetLabel() + " " + type_word->GetValue());
-		type_word->SetValue("");
-	}
+		wxString str = text_to_type->GetLabel();
 
-	evt.Skip();
+		//str.erase(0, str.find(' ') + 1);
+		
+		 
+		text_to_type->SetLabel(str);
+
+		type_word->SetValue(wxEmptyString);
+
+		evt.Skip();
+	}
+	else {
+		if (type_word->GetValue() == " ") {
+			type_word->SetValue(wxEmptyString);
+		}
+		evt.Skip();
+	}
 }

@@ -7,6 +7,7 @@
 #include <string>
 #include <time.h>
 #include <vector>
+
 using namespace std;
 
 class Generator
@@ -14,48 +15,38 @@ class Generator
 private:
 	vector<string> all_words;
 	string text;
-    int counter_words;
+
 public:
 	Generator() {
         srand(time(NULL));
-        string line;
-        ifstream in("word.txt");
-        counter_words = 0;
-        if (in.is_open())
-        {
-            while (getline(in, line))
-            {
-                   all_words.push_back(line);
-                   counter_words++;
-            }
-        }
-        in.close();   
+        ReadFile();
 	}
-    void Read_from_file() {
+
+    void ReadFile() {
         string line;
-        ifstream in("word.txt");
-        counter_words = 0;
+        ifstream in("words.txt");
         if (in.is_open())
         {
             while (getline(in, line))
             {
                 all_words.push_back(line);
-                counter_words++;
             }
         }
         in.close();
     }
-    string& Generating_text(const int& quantity) {
+
+    string GenText(const int& quantity) {
         text.clear();
         for (int i = 0; i < quantity; i++) {
-            text += all_words[rand() % counter_words];
+            text += all_words[rand() % all_words.size()];
             if (i < (quantity - 1)) {
                 text += ' ';
             }
         }
         return text;
     }
-    string& Get_text() {
+
+    string Get_text() {
         return text;
     }
 
@@ -66,7 +57,7 @@ public:
     void Save() {
 
         ofstream out;
-        out.open("word.txt"); 
+        out.open("words.txt"); 
         
         if (out.is_open())
         {
@@ -78,4 +69,5 @@ public:
     }
 
 };
+
 #endif

@@ -22,6 +22,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="CreatePanel.h" />
     <ClInclude Include="DocPanel.h" />
+    <ClInclude Include="Generator.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="TypePanel.h" />
   </ItemGroup>
