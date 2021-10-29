@@ -8,8 +8,10 @@ class TypePanel : public wxPanel
 public:
 	// Components
 	wxStaticText* text_to_type = nullptr;
-	wxStaticText* type_word = nullptr;
-	wxBoxSizer* sizer = nullptr;
+	wxTextCtrl* type_word = nullptr;
+
+	wxBoxSizer* vsizer = nullptr;
+	wxBoxSizer* hsizer = nullptr;
 
 
 	// Functions
