@@ -20,11 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="CreatePanel.h" />
+    <ClInclude Include="DocPanel.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="TypePanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="CreatePanel.cpp" />
+    <ClCompile Include="DocPanel.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TypePanel.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
