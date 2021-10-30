@@ -14,7 +14,8 @@ class Generator
 {
 private:
 	vector<string> all_words;
-	string text;
+	vector<string> text;
+    int quantity;
 
 public:
 	Generator() {
@@ -35,38 +36,27 @@ public:
         in.close();
     }
 
-    string GenText(const int& quantity) {
+    void GenText(const int& quantity) {
+        this->quantity = quantity;
         text.clear();
         for (int i = 0; i < quantity; i++) {
-            text += all_words[rand() % all_words.size()];
+            text.push_back(all_words[rand() % all_words.size()]);
+            
+        }
+    }
+
+    string GetText() {
+        string res;
+        for (int i = 0; i < quantity; i++) {
+            res += text[i];
             if (i < (quantity - 1)) {
-                text += ' ';
+                res += ' ';
             }
         }
-        return text;
+        return res;
     }
-
-    string Get_text() {
-        return text;
-    }
-
-    void Add(string& src_str) {
-        all_words.push_back(src_str);
-    }
-
-    void Save() {
-
-        ofstream out;
-        out.open("words.txt"); 
-        
-        if (out.is_open())
-        {
-            for (int i = 0; i < all_words.size(); i++) {
-                out << all_words[i] << endl;
-            }
-        }
-        out.close();
-    }
+    const vector<string>& GetWords() { return text; }
+    int GetCount() { return quantity; }
 
 };
 
