@@ -25,6 +25,7 @@ public:
 
 	wxBoxSizer* vsizer = nullptr;
 	wxBoxSizer* hsizer = nullptr;
+	wxBoxSizer* to_type_sizer = nullptr;
 
 
 	// Functions

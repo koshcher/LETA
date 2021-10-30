@@ -19,9 +19,11 @@ public:
 	void SetTime(double timer) {
 		time = timer;
 	}
+
 	void SetWords(int all_words_count) {
 		all_words = all_words_count;
 	}
+
 	void Reset() {
 		all_words = 0;
 		right_words = 0;
@@ -29,13 +31,19 @@ public:
 		wpm = 0; 
 		acc = 0;
 	}
+
 	void operator++(int) {
 		right_words++;
 	}
 
 	void Result() {
 		wpm = right_words * (60 / time) * (-1);
-		acc = (right_words * 1.0 / all_words * 1.0) * 100;
+		if (all_words == 0) {
+			acc = 0;
+		}
+		else {
+			acc = (right_words * 1.0 / all_words * 1.0) * 100;
+		}
 	}
 	
 	int WPM() { return wpm; }
