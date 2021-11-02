@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnalyzeDialog.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="CreatePanel.h" />
     <ClInclude Include="DocPanel.h" />

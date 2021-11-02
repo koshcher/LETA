@@ -1,6 +1,7 @@
 #include "CreatePanel.h"
 #include <fstream>
 #include <filesystem>
+#include "AnalyzeDialog.h"
 
 CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 {
@@ -181,9 +182,18 @@ void CreatePanel::Analyze(wxCommandEvent& evt) {
 	system(cmd.c_str());
 	remove("layouts/" + layout_name->GetValue());
 
+	/*
+	wxMessageDialog* dial = new wxMessageDialog(NULL, "Analyze", wxString::FromAscii(wxMessageBoxCaptionStr), wxOK);
+	dial->ShowModal();
+	dial->Destroy();
+	*/
+	AnalyzeDialog* dial = new AnalyzeDialog();
 }
 
 void CreatePanel::WriteForAnalyze() {
+	if (layout_name->GetValue() == "") {
+		layout_name->SetValue("tmp");
+	}
 	wxString path = "layouts/" + layout_name->GetValue();
 	ofstream f(path.ToStdString());
 	
