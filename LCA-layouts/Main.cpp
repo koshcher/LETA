@@ -48,19 +48,3 @@ Main::~Main() {
 	}
 	*/
 }
-
-/*
-void Main::OnChar(wxKeyEvent& evt) {
-	if (evt.GetKeyCode() == WXK_SPACE) {
-	}
-	else if (evt.GetKeyCode() == WXK_BACK) {
-
-		//text_to_type->SetLabel(text_to_type->GetLabel().erase(text_to_type->GetLabel().Length() - 1));
-	}
-	else {
-		//text_to_type->SetLabel(text_to_type->GetLabel() + char(evt.GetKeyCode()));
-	}
-
-	evt.Skip();
-}
-*/

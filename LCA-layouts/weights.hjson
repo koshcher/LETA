@@ -1,6 +1,6 @@
 {
   Dist: {
-    Lateral: 1.6 # lateral movement multiplier
+    Lateral: 1.4 # lateral movement multiplier
   }
   FSpeed: {
     SFB: 1.0  # SFB weight
@@ -22,9 +22,13 @@
   Score: {
   	FSpeed: 3
   	IndexBalance: 0.3
+  	LSB: 1
 
   	TrigramPrecision: -1 # -1 for no trigram calculation, 0 for full precision.
-	Roll: 0
+	LeftInwardRoll: 0
+  LeftOutwardRoll: 0
+	RightInwardRoll: 0
+  RightOutwardRoll: 0
 	Alternate: 0
 	Redirect: 0 
 	Onehand: 0

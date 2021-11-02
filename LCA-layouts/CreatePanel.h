@@ -9,7 +9,7 @@ using namespace std;
 class CreatePanel : public wxPanel
 {
 public:
-	// Components
+	// Components UI
 	wxBoxSizer* create_row_sizer = nullptr;
 	map<wxBoxSizer*, wxButton**> keys;
 
@@ -21,11 +21,16 @@ public:
 	wxTextCtrl* layout_name = nullptr;
 
 
+	// 
+
+
 	// Functions
 	CreatePanel(wxWindow* parent);
 	~CreatePanel();
 
 	void OnKeyClicked(wxCommandEvent& evt);
+	void Analyze(wxCommandEvent& evt);
+	void WriteForAnalyze();
 };
 
 #endif

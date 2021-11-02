@@ -1,5 +1,6 @@
 #include "CreatePanel.h"
-
+#include <fstream>
+#include <filesystem>
 
 CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 {
@@ -39,7 +40,7 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	keys_iter->second[12] = new wxButton(this, 12, "]");
 	keys_iter->second[12]->SetBackgroundColour(wxColor(129, 197, 197));
 	keys_iter->second[13] = new wxButton(this, 13, "\\");
-	keys_iter->second[13]->SetBackgroundColour(wxColor(129, 197, 197));
+	keys_iter->second[13]->Enable(false);
 
 	for (int i = 0; i < 14; i++) {
 		keys_iter->second[i]->Bind(wxEVT_BUTTON, &CreatePanel::OnKeyClicked, this);
@@ -138,7 +139,8 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	// Control
 	wxBoxSizer* control_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	analyze_btn = new wxButton(this, 60, "Analyze");
+	analyze_btn = new wxButton(this, 100, "Analyze");
+	analyze_btn->Bind(wxEVT_BUTTON, &CreatePanel::Analyze, this);
 	export_btn = new wxButton(this, 60, "Export");
 	layout_name = new wxTextCtrl(this, wxID_ANY, "");
 
@@ -170,4 +172,46 @@ void CreatePanel::OnKeyClicked(wxCommandEvent& evt) {
 	}
 
 	evt.Skip();
+}
+
+void CreatePanel::Analyze(wxCommandEvent& evt) {
+	WriteForAnalyze();
+
+	string cmd = "genkey.exe a " + layout_name->GetValue().ToStdString();
+	system(cmd.c_str());
+	remove("layouts/" + layout_name->GetValue());
+
+}
+
+void CreatePanel::WriteForAnalyze() {
+	wxString path = "layouts/" + layout_name->GetValue();
+	ofstream f(path.ToStdString());
+	
+	if (f.is_open()) {
+
+		f << layout_name->GetValue() << endl;
+
+		map<wxBoxSizer*, wxButton**>::iterator iter = keys.begin();
+		
+		for (int i = 1; i < 13; i++) {
+			f << iter->second[i]->GetLabel() << " ";
+		}
+		f << endl;
+		iter++;
+
+		for (int i = 1; i < 12; i++) {
+			f << iter->second[i]->GetLabel() << " ";
+		}
+		f << endl;
+		iter++;
+
+		for (int i = 1; i < 11; i++) {
+			f << iter->second[i]->GetLabel() << " ";
+		}
+		f << endl;
+
+		f << "0 1 2 3 3 4 4 5 6 7 7 7" << endl << "0 1 2 3 3 4 4 5 6 7 7" << endl << "0 1 2 3 3 4 4 5 6 7";
+
+		f.close();
+	}
 }

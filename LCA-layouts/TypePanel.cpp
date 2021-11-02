@@ -5,7 +5,7 @@ TypePanel::TypePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	this->SetBackgroundColour(wxColor(87, 87, 87));
 	this->SetForegroundColour(wxColor(200, 200, 200));
 
-	gen.GenText(2);
+	gen.GenText(10);
 
 	text_to_type = new wxStaticText(this, wxID_ANY, gen.GetText(), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END | wxST_NO_AUTORESIZE);
 	type_word = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(380, -1));
@@ -66,7 +66,7 @@ void TypePanel::OnChar(wxKeyEvent& evt) {
 		result->SetLabel("wpm: " + to_string(test.WPM()) + " acc: " + to_string(test.ACC()) + "%");
 
 		test.Reset();
-		gen.GenText(30);
+		gen.GenText(10);
 		text_to_type->SetLabel(gen.GetText());
 		word_index = 0;
 	}
