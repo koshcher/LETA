@@ -1,46 +1,46 @@
 #include "CreatePanel.h"
-#include <fstream>
 #include <filesystem>
 #include "AnalyzeDialog.h"
+#include "Exporter.h"
 
 CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 {
 	create_row_sizer = new wxBoxSizer(wxVERTICAL);
 
-	keys.insert(pair<wxBoxSizer*, wxButton**>(new wxBoxSizer(wxHORIZONTAL), new wxButton * [14]));
-	keys.insert(pair<wxBoxSizer*, wxButton**>(new wxBoxSizer(wxHORIZONTAL), new wxButton * [13]));
-	keys.insert(pair<wxBoxSizer*, wxButton**>(new wxBoxSizer(wxHORIZONTAL), new wxButton * [12]));
+	keys.insert(pair<wxBoxSizer*, vector<wxButton*>>(new wxBoxSizer(wxHORIZONTAL), {}));
+	keys.insert(pair<wxBoxSizer*, vector<wxButton*>>(new wxBoxSizer(wxHORIZONTAL), {}));
+	keys.insert(pair<wxBoxSizer*, vector<wxButton*>>(new wxBoxSizer(wxHORIZONTAL), {}));
 
-	map<wxBoxSizer*, wxButton**>::iterator keys_iter = keys.begin();
+	map<wxBoxSizer*, vector<wxButton*>>::iterator keys_iter = keys.begin();
 
 	// First row
-	keys_iter->second[0] = new wxButton(this, -1, "Tab", wxDefaultPosition, wxSize(-1, 90));
+	keys_iter->second.push_back(new wxButton(this, -1, "Tab", wxDefaultPosition, wxSize(-1, 90)));
 	keys_iter->second[0]->Enable(false);
-	keys_iter->second[1] = new wxButton(this, 1, "q");
+	keys_iter->second.push_back(new wxButton(this, 1, "q"));
 	keys_iter->second[1]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[2] = new wxButton(this, 2, "w");
+	keys_iter->second.push_back(new wxButton(this, 2, "w"));
 	keys_iter->second[2]->SetBackgroundColour(wxColor(203, 129, 203));
-	keys_iter->second[3] = new wxButton(this, 3, "e");
+	keys_iter->second.push_back(new wxButton(this, 3, "e"));
 	keys_iter->second[3]->SetBackgroundColour(wxColor(129, 184, 129));
-	keys_iter->second[4] = new wxButton(this, 4, "r");
+	keys_iter->second.push_back(new wxButton(this, 4, "r"));
 	keys_iter->second[4]->SetBackgroundColour(wxColor(123, 148, 193));
-	keys_iter->second[5] = new wxButton(this, 5, "t");
+	keys_iter->second.push_back(new wxButton(this, 5, "t"));
 	keys_iter->second[5]->SetBackgroundColour(wxColor(123, 148, 193));
-	keys_iter->second[6] = new wxButton(this, 6, "y");
+	keys_iter->second.push_back(new wxButton(this, 6, "y"));
 	keys_iter->second[6]->SetBackgroundColour(wxColor(129, 129, 203));
-	keys_iter->second[7] = new wxButton(this, 7, "u");
+	keys_iter->second.push_back(new wxButton(this, 7, "u"));
 	keys_iter->second[7]->SetBackgroundColour(wxColor(129, 129, 203));
-	keys_iter->second[8] = new wxButton(this, 8, "i");
+	keys_iter->second.push_back(new wxButton(this, 8, "i"));
 	keys_iter->second[8]->SetBackgroundColour(wxColor(129, 184, 129));
-	keys_iter->second[9] = new wxButton(this, 9, "o");
+	keys_iter->second.push_back(new wxButton(this, 9, "o"));
 	keys_iter->second[9]->SetBackgroundColour(wxColor(203, 129, 203));
-	keys_iter->second[10] = new wxButton(this, 10, "p");
+	keys_iter->second.push_back(new wxButton(this, 10, "p"));
 	keys_iter->second[10]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[11] = new wxButton(this, 11, "[");
+	keys_iter->second.push_back(new wxButton(this, 11, "["));
 	keys_iter->second[11]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[12] = new wxButton(this, 12, "]");
+	keys_iter->second.push_back(new wxButton(this, 12, "]"));
 	keys_iter->second[12]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[13] = new wxButton(this, 13, "\\");
+	keys_iter->second.push_back(new wxButton(this, 13, "\\"));
 	keys_iter->second[13]->Enable(false);
 
 	for (int i = 0; i < 14; i++) {
@@ -55,31 +55,31 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	keys_iter++;
 
 	// Second row
-	keys_iter->second[0] = new wxButton(this, -1, "Caps", wxDefaultPosition, wxSize(-1, 90));
+	keys_iter->second.push_back(new wxButton(this, -1, "Caps", wxDefaultPosition, wxSize(-1, 90)));
 	keys_iter->second[0]->Enable(false);
-	keys_iter->second[1] = new wxButton(this, 14, "a");
+	keys_iter->second.push_back(new wxButton(this, 14, "a"));
 	keys_iter->second[1]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[2] = new wxButton(this, 15, "s");
+	keys_iter->second.push_back(new wxButton(this, 15, "s"));
 	keys_iter->second[2]->SetBackgroundColour(wxColor(203, 129, 203));
-	keys_iter->second[3] = new wxButton(this, 16, "d");
+	keys_iter->second.push_back(new wxButton(this, 16, "d"));
 	keys_iter->second[3]->SetBackgroundColour(wxColor(129, 184, 129));
-	keys_iter->second[4] = new wxButton(this, 17, "f");
+	keys_iter->second.push_back(new wxButton(this, 17, "f"));
 	keys_iter->second[4]->SetBackgroundColour(wxColor(123, 148, 193));
-	keys_iter->second[5] = new wxButton(this, 18, "g");
+	keys_iter->second.push_back(new wxButton(this, 18, "g"));
 	keys_iter->second[5]->SetBackgroundColour(wxColor(123, 148, 193));
-	keys_iter->second[6] = new wxButton(this, 19, "h");
+	keys_iter->second.push_back(new wxButton(this, 19, "h"));
 	keys_iter->second[6]->SetBackgroundColour(wxColor(129, 129, 203));
-	keys_iter->second[7] = new wxButton(this, 20, "j");
+	keys_iter->second.push_back(new wxButton(this, 20, "j"));
 	keys_iter->second[7]->SetBackgroundColour(wxColor(129, 129, 203));
-	keys_iter->second[8] = new wxButton(this, 21, "k");
+	keys_iter->second.push_back(new wxButton(this, 21, "k"));
 	keys_iter->second[8]->SetBackgroundColour(wxColor(129, 184, 129));
-	keys_iter->second[9] = new wxButton(this, 22, "l");
+	keys_iter->second.push_back(new wxButton(this, 22, "l"));
 	keys_iter->second[9]->SetBackgroundColour(wxColor(203, 129, 203));
-	keys_iter->second[10] = new wxButton(this, 23, ";");
+	keys_iter->second.push_back(new wxButton(this, 23, ";"));
 	keys_iter->second[10]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[11] = new wxButton(this, 24, "'");
+	keys_iter->second.push_back(new wxButton(this, 24, "'"));
 	keys_iter->second[11]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[12] = new wxButton(this, -1, "Enter");
+	keys_iter->second.push_back(new wxButton(this, -1, "Enter"));
 	keys_iter->second[12]->Enable(false);
 
 	for (int i = 0; i < 13; i++) {
@@ -94,29 +94,29 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	keys_iter++;
 
 	// Third row
-	keys_iter->second[0] = new wxButton(this, -1, "Shift", wxDefaultPosition, wxSize(-1, 90));
+	keys_iter->second.push_back(new wxButton(this, -1, "Shift", wxDefaultPosition, wxSize(-1, 90)));
 	keys_iter->second[0]->Enable(false);
-	keys_iter->second[1] = new wxButton(this, 25, "z");
+	keys_iter->second.push_back(new wxButton(this, 25, "z"));
 	keys_iter->second[1]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[2] = new wxButton(this, 26, "x");
+	keys_iter->second.push_back(new wxButton(this, 26, "x"));
 	keys_iter->second[2]->SetBackgroundColour(wxColor(203, 129, 203));
-	keys_iter->second[3] = new wxButton(this, 27, "c");
+	keys_iter->second.push_back(new wxButton(this, 27, "c"));
 	keys_iter->second[3]->SetBackgroundColour(wxColor(129, 184, 129));
-	keys_iter->second[4] = new wxButton(this, 28, "v");
+	keys_iter->second.push_back(new wxButton(this, 28, "v"));
 	keys_iter->second[4]->SetBackgroundColour(wxColor(123, 148, 193));
-	keys_iter->second[5] = new wxButton(this, 29, "b");
+	keys_iter->second.push_back(new wxButton(this, 29, "b"));
 	keys_iter->second[5]->SetBackgroundColour(wxColor(123, 148, 193));
-	keys_iter->second[6] = new wxButton(this, 30, "n");
+	keys_iter->second.push_back(new wxButton(this, 30, "n"));
 	keys_iter->second[6]->SetBackgroundColour(wxColor(129, 129, 203));
-	keys_iter->second[7] = new wxButton(this, 31, "m");
+	keys_iter->second.push_back(new wxButton(this, 31, "m"));
 	keys_iter->second[7]->SetBackgroundColour(wxColor(129, 129, 203));
-	keys_iter->second[8] = new wxButton(this, 32, ",");
+	keys_iter->second.push_back(new wxButton(this, 32, ","));
 	keys_iter->second[8]->SetBackgroundColour(wxColor(129, 184, 129));
-	keys_iter->second[9] = new wxButton(this, 33, ".");
+	keys_iter->second.push_back(new wxButton(this, 33, "."));
 	keys_iter->second[9]->SetBackgroundColour(wxColor(203, 129, 203));
-	keys_iter->second[10] = new wxButton(this, 34, "/");
+	keys_iter->second.push_back(new wxButton(this, 34, "/"));
 	keys_iter->second[10]->SetBackgroundColour(wxColor(129, 197, 197));
-	keys_iter->second[11] = new wxButton(this, -1, "Shift");
+	keys_iter->second.push_back(new wxButton(this, -1, "Shift"));
 	keys_iter->second[11]->Enable(false);
 
 	for (int i = 0; i < 12; i++) {
@@ -143,6 +143,7 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	analyze_btn = new wxButton(this, 100, "Analyze");
 	analyze_btn->Bind(wxEVT_BUTTON, &CreatePanel::Analyze, this);
 	export_btn = new wxButton(this, 60, "Export");
+	export_btn->Bind(wxEVT_BUTTON, &CreatePanel::Export, this);
 	layout_name = new wxTextCtrl(this, wxID_ANY, "");
 
 	control_sizer->Add(analyze_btn, wxEXPAND, wxALIGN_CENTER_VERTICAL);
@@ -182,11 +183,6 @@ void CreatePanel::Analyze(wxCommandEvent& evt) {
 	system(cmd.c_str());
 	remove("layouts/" + layout_name->GetValue());
 
-	/*
-	wxMessageDialog* dial = new wxMessageDialog(NULL, "Analyze", wxString::FromAscii(wxMessageBoxCaptionStr), wxOK);
-	dial->ShowModal();
-	dial->Destroy();
-	*/
 	AnalyzeDialog* dial = new AnalyzeDialog();
 }
 
@@ -201,7 +197,7 @@ void CreatePanel::WriteForAnalyze() {
 
 		f << layout_name->GetValue() << endl;
 
-		map<wxBoxSizer*, wxButton**>::iterator iter = keys.begin();
+		map<wxBoxSizer*, vector<wxButton*>>::iterator iter = keys.begin();
 		
 		for (int i = 1; i < 13; i++) {
 			f << iter->second[i]->GetLabel() << " ";
@@ -224,4 +220,19 @@ void CreatePanel::WriteForAnalyze() {
 
 		f.close();
 	}
+}
+
+void CreatePanel::Export(wxCommandEvent& evt) {
+	if (layout_name->GetValue() == "") {
+		layout_name->SetValue("tmp");
+	}
+
+	vector<vector<wxButton*>> keys_vector;
+	map<wxBoxSizer*, vector<wxButton*>>::iterator iter = keys.begin();
+	for (; iter != keys.end(); iter++) {
+		keys_vector.push_back(iter->second);
+	}
+
+	Exporter ex(layout_name->GetValue().ToStdString(), keys_vector);
+	ex.Export();
 }

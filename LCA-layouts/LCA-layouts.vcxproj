@@ -23,6 +23,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="CreatePanel.h" />
     <ClInclude Include="DocPanel.h" />
+    <ClInclude Include="Exporter.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Test.h" />

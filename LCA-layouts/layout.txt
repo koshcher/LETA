@@ -1,28 +1,28 @@
 tmp
-Rolls (l): 19.53%
-	Inward: ~9.66%
-	Outward: ~9.87%
-Rolls (r): 18.31%
-	Inward: ~10.69%
-	Outward: ~7.62%
+Rolls (l): 19.85%
+	Inward: ~10.17%
+	Outward: ~9.69%
+Rolls (r): 18.30%
+	Inward: ~11.15%
+	Outward: ~7.15%
 Alternates: ~26.81%
-Onehands: ~2.83%
-Redirects: ~13.36%
-Finger Speed (weighted): [0.34 0.43 10.74 10.22 10.21 1.00 3.20 0.27]
-Finger Speed (unweighted): [0.50 1.53 51.56 56.19 56.13 4.79 11.54 0.40]
-Highest Speed (weighted): 10.74 (LM)
-Highest Speed (unweighted): 56.19 (LI)
+Onehands: ~2.63%
+Redirects: ~13.63%
+Finger Speed (weighted): [2.41 7.29 0.30 10.83 9.86 2.37 1.41 0.27]
+Finger Speed (unweighted): [3.61 26.23 1.42 59.57 54.22 11.38 5.08 0.40]
+Highest Speed (weighted): 10.83 (LI)
+Highest Speed (unweighted): 59.57 (LI)
 Index Usage: 21.7% 18.8%
-SFBs: 5.250%
-DSFBs: 9.642%
-LSBs: 5.51%
+SFBs: 5.247%
+DSFBs: 9.799%
+LSBs: 2.32%
 Top SFBs:
-	ed 0.971%	de 0.679%	ce 0.560%	ec 0.433%
-	lo 0.427%	un 0.380%	tr 0.368%	rt 0.342%
+	es 1.217%	se 0.847%	lo 0.427%	un 0.380%
+	wa 0.374%	tr 0.368%	rt 0.342%	ol 0.324%
 
 Worst Bigrams:
-	ec 121.931	un 62.668	ed 42.876	rt 37.855
-	ol 32.229	rb 25.755	rv 21.451	um 20.087
+	es 85.686	un 62.668	tr 37.855	wa 33.929
+	rv 28.921	ex 27.677	rf 27.068	ol 24.172
 
-Score: 115.58
+Score: 107.39
 

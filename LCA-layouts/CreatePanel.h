@@ -3,6 +3,7 @@
 
 #include "wx/wx.h"
 #include <map>
+#include <vector>
 
 using namespace std;
 
@@ -11,7 +12,7 @@ class CreatePanel : public wxPanel
 public:
 	// Components UI
 	wxBoxSizer* create_row_sizer = nullptr;
-	map<wxBoxSizer*, wxButton**> keys;
+	map<wxBoxSizer*, vector<wxButton*>> keys;
 
 	bool isKeyPressed = false;
 	wxWindow* previous_key = nullptr;
@@ -21,9 +22,6 @@ public:
 	wxTextCtrl* layout_name = nullptr;
 
 
-	// 
-
-
 	// Functions
 	CreatePanel(wxWindow* parent);
 	~CreatePanel();
@@ -31,6 +29,8 @@ public:
 	void OnKeyClicked(wxCommandEvent& evt);
 	void Analyze(wxCommandEvent& evt);
 	void WriteForAnalyze();
+	void Export(wxCommandEvent& evt);
+
 };
 
 #endif
