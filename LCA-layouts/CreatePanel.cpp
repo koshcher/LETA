@@ -231,7 +231,9 @@ void CreatePanel::Export(wxCommandEvent& evt) {
 	map<wxBoxSizer*, vector<wxButton*>>::iterator iter = keys.begin();
 	for (; iter != keys.end(); iter++) {
 		for (int i = 0; i < iter->second.size(); i++) {
-			keys_vector.push_back(iter->second[i]);
+			if (iter->second[i]->GetId() > 0) {
+				keys_vector.push_back(iter->second[i]);
+			}
 		}
 	}
 
