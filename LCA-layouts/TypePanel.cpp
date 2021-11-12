@@ -3,7 +3,7 @@
 TypePanel::TypePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 {
 	this->SetBackgroundColour(wxColor(87, 87, 87));
-	this->SetForegroundColour(wxColor(200, 200, 200));
+	this->SetForegroundColour(wxColor(255, 255, 255));
 
 	gen.GenText(10);
 

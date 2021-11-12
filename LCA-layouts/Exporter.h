@@ -40,6 +40,9 @@ public:
 
 		zip.PutNextEntry("windows" + sep + title + ".klc");
 		Export_windows(txt);
+
+		zip.PutNextEntry("mac" + sep + title + ".keylayout");
+		Export_windows(txt);
 		/*
 		wxFFileOutputStream out(title + ".zip");
 		wxZipOutputStream zip(out);
@@ -209,6 +212,10 @@ public:
 			<< "54 < 00 >" << endl << "56	Help" << endl << "5b	\"Left Windows\"" << endl << "5c	\"Right Windows\"" << endl << "5d	Application" << endl << endl
 			<< "DESCRIPTIONS" << endl << endl
 			<< "0409	United States " + title << endl << endl << "LANGUAGENAMES" << endl << endl << "0409	English (United States)" << endl << endl << "ENDKBD";
+	}
+
+	void Export_mac(wxTextOutputStream& txt) {
+
 	}
 };
 
