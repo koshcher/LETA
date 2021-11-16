@@ -18,6 +18,7 @@ private:
 	static map<char, string> xmodmap_keys;
 	static vector<string> autohotkey_keys;
 	static map<char, string> klc_keys;
+	static map<int, int> mac_keys;
 
 public:
 	Exporter(const string& title, vector<wxButton*>& keys) {
@@ -42,16 +43,7 @@ public:
 		Export_windows(txt);
 
 		zip.PutNextEntry("mac" + sep + title + ".keylayout");
-		Export_windows(txt);
-		/*
-		wxFFileOutputStream out(title + ".zip");
-		wxZipOutputStream zip(out);
-
-		Export_xmodmap();
-		zip.PutNextEntry("xmodmap." + title);
-
-		zip.Close();
-		*/
+		Export_mac(txt);
 	}
 
 	void Export_xmodmap(wxTextOutputStream& txt) {
@@ -215,8 +207,239 @@ public:
 	}
 
 	void Export_mac(wxTextOutputStream& txt) {
+		txt << "<?xml version=\"1.1\" encoding=\"UTF-8\"?>" << endl
+			<< "<!DOCTYPE keyboard SYSTEM \"file://localhost/System/Library/DTDs/KeyboardLayout.dtd\">" << endl
+			<< "<keyboard group=\"0\" id=\"1111\" name=\"" + title + "\" maxout=\"1\">" << endl
+			<< "	<layouts>" << endl
+			<< "		<layout first=\"0\" last=\"17\" mapSet=\"ANSI\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"18\" last=\"18\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"21\" last=\"23\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"30\" last=\"30\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"33\" last=\"33\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"36\" last=\"36\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"194\" last=\"194\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"197\" last=\"197\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"200\" last=\"201\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "        <layout first=\"206\" last=\"207\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
+			<< "    </layouts>" << endl
+			<< "    <modifierMap id=\"Modifiers\" defaultIndex=\"6\">" << endl // Modifiers
+			<< "        <keyMapSelect mapIndex=\"0\">" << endl
+			<< "            <modifier keys=\"\"/>" << endl
+			<< "        </keyMapSelect>" << endl
+			<< "        <keyMapSelect mapIndex=\"1\">" << endl
+			<< "            <modifier keys=\"anyShift\"/>" << endl // with Shift
+			<< "        </keyMapSelect>" << endl
+			<< "        <keyMapSelect mapIndex=\"2\">" << endl
+			<< "            <modifier keys=\"anyOption\"/>" << endl
+			<< "        </keyMapSelect>" << endl
+			<< "        <keyMapSelect mapIndex=\"3\">" << endl
+			<< "            <modifier keys=\"anyShift caps? anyOption\"/>" << endl
+			<< "        </keyMapSelect>" << endl
+			<< "        <keyMapSelect mapIndex=\"4\">" << endl
+			<< "            <modifier keys=\"command\"/>" << endl
+			<< "        </keyMapSelect>" << endl
+			<< "        <keyMapSelect mapIndex=\"5\">" << endl
+			<< "            <modifier keys=\"caps\"/>" << endl
+			<< "        </keyMapSelect>" << endl
+			<< "        <keyMapSelect mapIndex=\"6\">" << endl
+			<< "            <modifier keys=\"anyControl\"/>" << endl
+			<< "        </keyMapSelect>" << endl
+			<< "	</modifierMap>" << endl;
 
+	
+		int index = 0;
+		txt << "    <keyMapSet id=\"ANSI\">" << endl;
+		for (int index = 0; index < 7; index++) {
+			txt << "        <keyMap index=\"" << index << "\">" << endl;
+
+			if (index == 2 || index == 3 || index == 6) {
+				txt << "            <key code=\"0\" output=\"\"/>" << endl
+					<< "            <key code=\"36\" output=\"&#x000D;\"/>" << endl
+					<< "            <key code=\"48\" output=\"&#x0009;\"/>" << endl
+					<< "            <key code=\"51\" output=\"&#x0008;\"/>" << endl
+					<< "            <key code=\"53\" output=\"&#x001B;\"/>" << endl
+					<< "            <key code=\"64\" output=\"&#x0010;\"/>" << endl
+					<< "            <key code=\"66\" output=\"&#x001D;\"/>" << endl
+					<< "            <key code=\"70\" output=\"&#x001C;\"/>" << endl
+					<< "            <key code=\"71\" output=\"&#x001B;\"/>" << endl
+					<< "            <key code=\"72\" output=\"&#x001F;\"/>" << endl
+					<< "            <key code=\"76\" output=\"&#x0003;\"/>" << endl
+					<< "            <key code=\"77\" output=\"&#x001E;\"/>" << endl
+					<< "            <key code=\"79\" output=\"&#x0010;\"/>" << endl
+					<< "            <key code=\"80\" output=\"&#x0010;\"/>" << endl;
+			}
+			else 
+			{
+				if (index == 0 || index == 4) // lowercase
+				{
+					for (int code = 0; code < 10; code++)
+					{
+						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+					}
+					txt << "            <key code=\"10\" output=\"§\"/>" << endl;
+					for (int code = 11; code < 18; code++)
+					{
+						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+					}
+					txt << "            <key code=\"18\" output=\"1\"/>" << endl
+						<< "            <key code=\"19\" output=\"2\"/>" << endl
+						<< "            <key code=\"20\" output=\"3\"/>" << endl
+						<< "            <key code=\"21\" output=\"4\"/>" << endl
+						<< "            <key code=\"22\" output=\"6\"/>" << endl
+						<< "            <key code=\"23\" output=\"5\"/>" << endl
+						<< "            <key code=\"24\" output=\"=\"/>" << endl
+						<< "            <key code=\"25\" output=\"9\"/>" << endl
+						<< "            <key code=\"26\" output=\"7\"/>" << endl
+						<< "            <key code=\"27\" output=\"-\"/>" << endl
+						<< "            <key code=\"28\" output=\"8\"/>" << endl
+						<< "            <key code=\"29\" output=\"0\"/>" << endl;
+					for (int code = 30; code < 36; code++) {
+						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+					}
+					txt << "            <key code=\"36\" output=\"&#x000D;\"/>" << endl;
+					for (int code = 37; code < 42; code++) {
+						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+					}
+					txt << "            <key code=\"42\" output=\"\\\"/>" << endl;
+					for (int code = 43; code < 48; code++) {
+						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+					}
+				}
+				else
+				{
+					for (int code = 0; code < 10; code++)
+					{
+						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+					}
+					txt << "            <key code=\"10\" output=\"§\"/>" << endl;
+					for (int code = 11; code < 18; code++)
+					{
+						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+					}
+					txt << "            <key code=\"18\" output=\"1\"/>" << endl
+						<< "            <key code=\"19\" output=\"2\"/>" << endl
+						<< "            <key code=\"20\" output=\"3\"/>" << endl
+						<< "            <key code=\"21\" output=\"4\"/>" << endl
+						<< "            <key code=\"22\" output=\"6\"/>" << endl
+						<< "            <key code=\"23\" output=\"5\"/>" << endl
+						<< "            <key code=\"24\" output=\"=\"/>" << endl
+						<< "            <key code=\"25\" output=\"9\"/>" << endl
+						<< "            <key code=\"26\" output=\"7\"/>" << endl
+						<< "            <key code=\"27\" output=\"-\"/>" << endl
+						<< "            <key code=\"28\" output=\"8\"/>" << endl
+						<< "            <key code=\"29\" output=\"0\"/>" << endl;
+					for (int code = 30; code < 36; code++) {
+						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+					}
+					txt << "            <key code=\"36\" output=\"&#x000D;\"/>" << endl;
+					for (int code = 37; code < 42; code++) {
+						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+					}
+					txt << "            <key code=\"42\" output=\"\\\"/>" << endl;
+					for (int code = 43; code < 48; code++) {
+						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+					}
+				}
+
+				txt << "            <key code=\"48\" output=\"&#x0009;\"/>" << endl
+					<< "            <key code=\"49\" output=\" \"/>" << endl
+					<< "            <key code=\"50\" output=\"`\"/>" << endl
+					<< "            <key code=\"51\" output=\"&#x0008;\"/>" << endl
+					<< "            <key code=\"53\" output=\"&#x001B;\"/>" << endl
+					<< "            <key code=\"64\" output=\"&#x0010;\"/>" << endl
+					<< "            <key code=\"65\" output=\"\"/>" << endl
+					<< "            <key code=\"66\" output=\"&#x001D;\"/>" << endl
+					<< "            <key code=\"67\" output=\"*\"/>" << endl
+					<< "            <key code=\"69\" output=\"+\"/>" << endl
+					<< "            <key code=\"70\" output=\"&#x001C;\"/>" << endl
+					<< "            <key code=\"71\" output=\"&#x001B;\"/>" << endl
+					<< "            <key code=\"72\" output=\"&#x001F;\"/>" << endl
+					<< "            <key code=\"75\" output=\"/\"/>" << endl
+					<< "            <key code=\"76\" output=\"&#x0003;\"/>" << endl
+					<< "            <key code=\"77\" output=\"&#x001E;\"/>" << endl
+					<< "            <key code=\"78\" output=\"-\"/>" << endl
+					<< "            <key code=\"79\" output=\"&#x0010;\"/>" << endl
+					<< "            <key code=\"80\" output=\"&#x0010;\"/>" << endl
+					<< "            <key code=\"81\" output=\"=\"/>" << endl
+					<< "            <key code=\"82\" output=\"0\"/>" << endl
+					<< "            <key code=\"83\" output=\"1\"/>" << endl
+					<< "            <key code=\"84\" output=\"2\"/>" << endl
+					<< "            <key code=\"85\" output=\"3\"/>" << endl
+					<< "            <key code=\"86\" output=\"4\"/>" << endl
+					<< "            <key code=\"87\" output=\"5\"/>" << endl
+					<< "            <key code=\"88\" output=\"6\"/>" << endl
+					<< "            <key code=\"89\" output=\"7\"/>" << endl
+					<< "            <key code=\"91\" output=\"8\"/>" << endl
+					<< "            <key code=\"92\" output=\"9\"/>" << endl;
+			}
+			
+			txt << "            <key code=\"96\" output=\"&#x0010;\"/>" << endl 
+				<< "            <key code=\"97\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"98\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"99\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"100\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"101\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"103\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"105\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"106\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"107\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"109\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"111\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"113\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"114\" output=\"&#x0005;\"/>" << endl
+				<< "            <key code=\"115\" output=\"&#x0001;\"/>" << endl
+				<< "            <key code=\"116\" output=\"&#x000B;\"/>" << endl
+				<< "            <key code=\"117\" output=\"&#x007F;\"/>" << endl
+				<< "            <key code=\"118\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"119\" output=\"&#x0004;\"/>" << endl
+				<< "            <key code=\"120\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"121\" output=\"&#x000C;\"/>" << endl
+				<< "            <key code=\"122\" output=\"&#x0010;\"/>" << endl
+				<< "            <key code=\"123\" output=\"&#x001C;\"/>" << endl
+				<< "            <key code=\"124\" output=\"&#x001D;\"/>" << endl
+				<< "            <key code=\"125\" output=\"&#x001F;\"/>" << endl
+				<< "            <key code=\"126\" output=\"&#x001E;\"/>" << endl
+				<< "        </keyMap>" << endl;
+
+		}
+
+
+
+		txt << "    </keyMapSet>" << endl;
+
+
+		txt << "    <keyMapSet id=\"JIS\">" << endl
+			<< "        <keyMap index=\"0\" baseMapSet=\"ANSI\" baseIndex=\"0\">" << endl
+			<< "            <key code=\"512\" output=\"\"/>" << endl
+			<< "        </keyMap>" << endl
+			<< "        <keyMap index=\"1\" baseMapSet=\"ANSI\" baseIndex=\"1\">" << endl
+			<< "            <key code=\"512\" output=\"\"/>" << endl
+			<< "        </keyMap>" << endl
+			<< "        <keyMap index=\"2\" baseMapSet=\"ANSI\" baseIndex=\"2\">" << endl
+			<< "            <key code=\"512\" output=\"\"/>" << endl
+			<< "        </keyMap>" << endl
+			<< "        <keyMap index=\"3\" baseMapSet=\"ANSI\" baseIndex=\"3\">" << endl
+			<< "            <key code=\"512\" output=\"\"/>" << endl
+			<< "        </keyMap>" << endl
+			<< "        <keyMap index=\"4\" baseMapSet=\"ANSI\" baseIndex=\"4\">" << endl
+			<< "            <key code=\"512\" output=\"\"/>" << endl
+			<< "        </keyMap>" << endl
+			<< "        <keyMap index=\"5\" baseMapSet=\"ANSI\" baseIndex=\"5\">" << endl
+			<< "            <key code=\"512\" output=\"\"/>" << endl
+			<< "        </keyMap>" << endl
+			<< "        <keyMap index=\"6\" baseMapSet=\"ANSI\" baseIndex=\"6\">" << endl
+			<< "            <key code=\"512\" output=\"\"/>" << endl
+			<< "        </keyMap>" << endl
+			<< "    </keyMapSet>" << endl
+			<< "</keyboard>" << endl;
 	}
+};
+
+map<int, int> Exporter::mac_keys{
+	{0, 13}, {1, 14}, {2, 15}, {3, 16}, {4, 18}, {5, 17}, {6, 24}, {7, 25}, {8, 26}, {9, 27},
+	{11, 28}, {12, 0}, {13, 1}, {14, 2}, {15, 3}, {16, 5}, {17, 4}, {30, 11}, {31, 8},
+	{32, 6}, {33, 10}, {34, 7}, {35, 9}, {37, 21}, {38, 19}, {39, 23}, {40, 20}, {41, 22},
+	{43, 31}, {44, 33}, {45, 29}, {46, 30}, {47, 32}
 };
 
 map<char, string> Exporter::xmodmap_keys {

@@ -1,6 +1,6 @@
 #include "Main.h"
 
-Main::Main() : wxFrame(nullptr, wxID_ANY, "LCA layouts", wxPoint(-1, -1), wxSize(1450, 768))
+Main::Main() : wxFrame(nullptr, wxID_ANY, "LETA", wxPoint(-1, -1), wxSize(1450, 768))
 {
 	this->SetMinSize(wxSize(480, 360));
 	this->SetFont(wxFont(17, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
