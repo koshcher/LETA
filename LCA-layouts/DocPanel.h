@@ -9,7 +9,6 @@ public:
 	// Components
 	wxStaticText* doc;
 
-
 	// Functions
 	DocPanel(wxWindow* parent);
 	~DocPanel();

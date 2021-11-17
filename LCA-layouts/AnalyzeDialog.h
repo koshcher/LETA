@@ -27,6 +27,12 @@ public:
 		Show();
 	}
 
+	~AnalyzeDialog() {
+		delete panel;
+		delete text;
+		delete sizer;
+	}
+
 	string ReadLayout() {
 		string res = "";
 		string tmp = "";

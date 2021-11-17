@@ -157,7 +157,10 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 }
 
 CreatePanel::~CreatePanel() {
-
+	delete previous_key;
+	delete analyze_btn;
+	delete export_btn;
+	delete layout_name;
 }
 
 void CreatePanel::OnKeyClicked(wxCommandEvent& evt) {

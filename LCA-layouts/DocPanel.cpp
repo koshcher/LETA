@@ -7,5 +7,5 @@ DocPanel::DocPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 }
 
 DocPanel::~DocPanel() {
-
+	delete doc;
 }

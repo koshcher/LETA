@@ -19,6 +19,7 @@ private:
 	static vector<string> autohotkey_keys;
 	static map<char, string> klc_keys;
 	static map<int, int> mac_keys;
+	static map<char, string> mac_upper;
 
 public:
 	Exporter(const string& title, vector<wxButton*>& keys) {
@@ -71,6 +72,12 @@ public:
 				txt << "keycode  " << keys[i]->GetId() << " =" << xmodmap_key->second << endl;
 			}
 		}
+
+		txt << "keycode  66 =    BackSpace        Escape        BackSpace         BackSpace" << endl
+			<< "keycode  94 =        minus    underscore           endash            emdash" << endl
+			<< "keycode  65 =        space         space            space      nobreakspace" << endl
+			<< "keycode 113 =  Mode_switch   Mode_switch" << endl
+			<< "clear Lock" << endl;
 	}
 
 	void Export_autohotkey(wxTextOutputStream& txt) {
@@ -209,7 +216,7 @@ public:
 	void Export_mac(wxTextOutputStream& txt) {
 		txt << "<?xml version=\"1.1\" encoding=\"UTF-8\"?>" << endl
 			<< "<!DOCTYPE keyboard SYSTEM \"file://localhost/System/Library/DTDs/KeyboardLayout.dtd\">" << endl
-			<< "<keyboard group=\"0\" id=\"1111\" name=\"" + title + "\" maxout=\"1\">" << endl
+			<< "<keyboard group=\"126\" id=\"-8853\" name=\"" + title + "\" maxout=\"1\">" << endl
 			<< "	<layouts>" << endl
 			<< "		<layout first=\"0\" last=\"17\" mapSet=\"ANSI\" modifiers=\"Modifiers\"/>" << endl
 			<< "        <layout first=\"18\" last=\"18\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
@@ -307,37 +314,68 @@ public:
 				}
 				else
 				{
+					map<char, string>::iterator paste_char;
 					for (int code = 0; code < 10; code++)
 					{
-						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != mac_upper.end()) {
+							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+						}
+						else {
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						}
 					}
 					txt << "            <key code=\"10\" output=\"§\"/>" << endl;
 					for (int code = 11; code < 18; code++)
 					{
-						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != mac_upper.end()) {
+							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+						}
+						else {
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						}
 					}
-					txt << "            <key code=\"18\" output=\"1\"/>" << endl
-						<< "            <key code=\"19\" output=\"2\"/>" << endl
-						<< "            <key code=\"20\" output=\"3\"/>" << endl
-						<< "            <key code=\"21\" output=\"4\"/>" << endl
-						<< "            <key code=\"22\" output=\"6\"/>" << endl
-						<< "            <key code=\"23\" output=\"5\"/>" << endl
-						<< "            <key code=\"24\" output=\"=\"/>" << endl
-						<< "            <key code=\"25\" output=\"9\"/>" << endl
-						<< "            <key code=\"26\" output=\"7\"/>" << endl
-						<< "            <key code=\"27\" output=\"-\"/>" << endl
-						<< "            <key code=\"28\" output=\"8\"/>" << endl
-						<< "            <key code=\"29\" output=\"0\"/>" << endl;
+					txt << "            <key code=\"18\" output=\"!\"/>" << endl
+						<< "            <key code=\"19\" output=\"@\"/>" << endl
+						<< "            <key code=\"20\" output=\"#\"/>" << endl
+						<< "            <key code=\"21\" output=\"$\"/>" << endl
+						<< "            <key code=\"22\" output=\"^\"/>" << endl
+						<< "            <key code=\"23\" output=\"%\"/>" << endl
+						<< "            <key code=\"24\" output=\"+\"/>" << endl
+						<< "            <key code=\"25\" output=\"(\"/>" << endl
+						<< "            <key code=\"26\" output=\"&#x0026;\"/>" << endl
+						<< "            <key code=\"27\" output=\"_\"/>" << endl
+						<< "            <key code=\"28\" output=\"*\"/>" << endl
+						<< "            <key code=\"29\" output=\")\"/>" << endl;
 					for (int code = 30; code < 36; code++) {
-						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != mac_upper.end()) {
+							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+						}
+						else {
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						}
 					}
 					txt << "            <key code=\"36\" output=\"&#x000D;\"/>" << endl;
 					for (int code = 37; code < 42; code++) {
-						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != mac_upper.end()) {
+							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+						}
+						else {
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						}
 					}
-					txt << "            <key code=\"42\" output=\"\\\"/>" << endl;
+					txt << "            <key code=\"42\" output=\"|\"/>" << endl;
 					for (int code = 43; code < 48; code++) {
-						txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != mac_upper.end()) {
+							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+						}
+						else {
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+						}
 					}
 				}
 
@@ -403,12 +441,8 @@ public:
 
 		}
 
-
-
-		txt << "    </keyMapSet>" << endl;
-
-
-		txt << "    <keyMapSet id=\"JIS\">" << endl
+		txt << "    </keyMapSet>" << endl
+			<< "    <keyMapSet id=\"JIS\">" << endl
 			<< "        <keyMap index=\"0\" baseMapSet=\"ANSI\" baseIndex=\"0\">" << endl
 			<< "            <key code=\"512\" output=\"\"/>" << endl
 			<< "        </keyMap>" << endl
@@ -440,6 +474,10 @@ map<int, int> Exporter::mac_keys{
 	{11, 28}, {12, 0}, {13, 1}, {14, 2}, {15, 3}, {16, 5}, {17, 4}, {30, 11}, {31, 8},
 	{32, 6}, {33, 10}, {34, 7}, {35, 9}, {37, 21}, {38, 19}, {39, 23}, {40, 20}, {41, 22},
 	{43, 31}, {44, 33}, {45, 29}, {46, 30}, {47, 32}
+};
+
+map<char, string> Exporter::mac_upper{
+	{'[', "{"}, {']', "}"}, {'\'',"&#x0022;"}, {';',":"}, {',',"&#x003C;"}, {'.',"&#x003E;"}, {'/',"?"}
 };
 
 map<char, string> Exporter::xmodmap_keys {
@@ -478,13 +516,7 @@ map<char, string> Exporter::xmodmap_keys {
 	{'.', "       period       greater    dead_abovedot        asciitilde"},
 	{'/', "        slash      question     questiondown        asciitilde"}
 };
-/*                                                                                   
-keycode  66 =    BackSpace        Escape        BackSpace         BackSpace            
-keycode  94 =        minus    underscore           endash            emdash            
-keycode  65 =        space         space            space      nobreakspace            
-keycode 113 =  Mode_switch   Mode_switch                                               
-clear Lock
-*/
+
 vector<string> Exporter::autohotkey_keys{
 	"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
 	"a", "s", "d", "f", "g", "h", "j", "k", "l", "SC027", "'",

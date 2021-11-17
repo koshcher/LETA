@@ -40,11 +40,8 @@ Main::Main() : wxFrame(nullptr, wxID_ANY, "LETA", wxPoint(-1, -1), wxSize(1450, 
 }
 
 Main::~Main() {
-	/*
-	map<wxBoxSizer*, wxButton**>::iterator keys_iter = keys.begin();
-
-	for (; keys_iter != keys.end(); keys_iter++) {
-		delete[] keys_iter->second;
-	}
-	*/
+	delete type_panel;
+	delete create_panel;
+	delete doc_panel;
+	delete notebook;
 }

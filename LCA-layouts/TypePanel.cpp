@@ -30,7 +30,9 @@ TypePanel::TypePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 }
 
 TypePanel::~TypePanel() {
-
+	delete text_to_type;
+	delete type_word;
+	delete result;
 }
 
 void TypePanel::OnChar(wxKeyEvent& evt) {
