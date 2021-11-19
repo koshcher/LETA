@@ -16,11 +16,9 @@ TypePanel::TypePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
 	to_type_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	//to_type_sizer->Add(text_to_type);
 	hsizer->Add(type_word, 1, wxALIGN_CENTER_VERTICAL);
 
 	vsizer->Add(text_to_type, 1, wxALL | wxEXPAND, 50);
-//	vsizer->Add(to_type_sizer, 1, wxALIGN_CENTER_HORIZONTAL);
 	vsizer->Add(hsizer, 1, wxALIGN_CENTER_HORIZONTAL);
 	vsizer->Add(result, 1, wxALIGN_CENTER_HORIZONTAL);
 
@@ -29,22 +27,27 @@ TypePanel::TypePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	type_word->Bind(wxEVT_CHAR, &TypePanel::OnChar, this);
 }
 
-TypePanel::~TypePanel() {
+TypePanel::~TypePanel() 
+{
 	delete text_to_type;
 	delete type_word;
 	delete result;
 }
 
-void TypePanel::OnChar(wxKeyEvent& evt) {
-	if (is_going == false) {
+void TypePanel::OnChar(wxKeyEvent& evt)
+{
+	if (is_going == false) 
+	{
 		is_going = true;
 		word_index = 0;
 		test.SetWords(gen.GetCount());
 		timer = time(NULL);
 		word_index = 0;
 	}
-	if (evt.GetKeyCode() == WXK_SPACE) {
-		if (type_word->GetValue() == gen.GetWords()[word_index]) {
+	if (evt.GetKeyCode() == WXK_SPACE) 
+	{
+		if (type_word->GetValue() == gen.GetWords()[word_index])
+		{
 			test++;
 		}
 
@@ -55,13 +58,16 @@ void TypePanel::OnChar(wxKeyEvent& evt) {
 		type_word->SetValue(wxEmptyString);
 		word_index++;
 	}
-	else {
-		if (type_word->GetValue() == " ") {
+	else
+	{
+		if (type_word->GetValue() == " ")
+		{
 			type_word->SetValue(wxEmptyString);
 		}
 	}
 
-	if (word_index == gen.GetWords().size()) {
+	if (word_index == gen.GetWords().size())
+	{
 		is_going = false;
 		test.SetTime(difftime(timer, time(NULL)));
 		test.Result();

@@ -43,12 +43,14 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	keys_iter->second.push_back(new wxButton(this, 51, "\\"));
 	keys_iter->second[13]->Enable(false);
 
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < 14; i++) 
+	{
 		keys_iter->second[i]->Bind(wxEVT_BUTTON, &CreatePanel::OnKeyClicked, this);
 	}
 
 	keys_iter->first->Add(keys_iter->second[0], 5, wxEXPAND);
-	for (int col = 1; col < 13; col++) {
+	for (int col = 1; col < 13; col++)
+	{
 		keys_iter->first->Add(keys_iter->second[col], 3, wxEXPAND);
 	}
 	keys_iter->first->Add(keys_iter->second[13], 5, wxEXPAND);
@@ -82,12 +84,14 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	keys_iter->second.push_back(new wxButton(this, -1, "Enter"));
 	keys_iter->second[12]->Enable(false);
 
-	for (int i = 0; i < 13; i++) {
+	for (int i = 0; i < 13; i++) 
+	{
 		keys_iter->second[i]->Bind(wxEVT_BUTTON, &CreatePanel::OnKeyClicked, this);
 	}
 
 	keys_iter->first->Add(keys_iter->second[0], 6, wxEXPAND);
-	for (int col = 1; col < 12; col++) {
+	for (int col = 1; col < 12; col++) 
+	{
 		keys_iter->first->Add(keys_iter->second[col], 3, wxEXPAND);
 	}
 	keys_iter->first->Add(keys_iter->second[12], 7, wxEXPAND);
@@ -119,12 +123,14 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	keys_iter->second.push_back(new wxButton(this, -1, "Shift"));
 	keys_iter->second[11]->Enable(false);
 
-	for (int i = 0; i < 12; i++) {
+	for (int i = 0; i < 12; i++) 
+	{
 		keys_iter->second[i]->Bind(wxEVT_BUTTON, &CreatePanel::OnKeyClicked, this);
 	}
 
 	keys_iter->first->Add(keys_iter->second[0], 8, wxEXPAND);
-	for (int col = 1; col < 11; col++) {
+	for (int col = 1; col < 11; col++) 
+	{
 		keys_iter->first->Add(keys_iter->second[col], 3, wxEXPAND);
 
 		keys_iter->second[col]->Bind(wxEVT_BUTTON, &CreatePanel::OnKeyClicked, this); // Bind OnKeyClicked function to buttons
@@ -133,7 +139,8 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 
 	// Connect sizers
 	keys_iter = keys.begin();
-	for (; keys_iter != keys.end(); keys_iter++) {
+	for (; keys_iter != keys.end(); keys_iter++)
+	{
 		create_row_sizer->Add(keys_iter->first, 1, wxALIGN_CENTER_HORIZONTAL);
 	}
 
@@ -156,30 +163,34 @@ CreatePanel::CreatePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	this->Center();
 }
 
-CreatePanel::~CreatePanel() {
+CreatePanel::~CreatePanel() 
+{
 	delete previous_key;
 	delete analyze_btn;
 	delete export_btn;
 	delete layout_name;
 }
 
-void CreatePanel::OnKeyClicked(wxCommandEvent& evt) {
-	if (isKeyPressed == false) {
+void CreatePanel::OnKeyClicked(wxCommandEvent& evt) 
+{
+	if (isKeyPressed == false)
+	{
 		isKeyPressed = true;
 		previous_key = this->FindItem(evt.GetId());
 	}
-	else {
+	else 
+	{
 		wxWindow* current_key = this->FindItem(evt.GetId());
 		wxString previous_str = previous_key->GetLabel();
 		previous_key->SetLabel(current_key->GetLabel());
 		current_key->SetLabel(previous_str);
 		isKeyPressed = false;
 	}
-
 	evt.Skip();
 }
 
-void CreatePanel::Analyze(wxCommandEvent& evt) {
+void CreatePanel::Analyze(wxCommandEvent& evt)
+{
 	WriteForAnalyze();
 
 	string cmd = "genkey.exe a " + layout_name->GetValue().ToStdString();
@@ -189,32 +200,37 @@ void CreatePanel::Analyze(wxCommandEvent& evt) {
 	AnalyzeDialog* dial = new AnalyzeDialog();
 }
 
-void CreatePanel::WriteForAnalyze() {
-	if (layout_name->GetValue() == "") {
+void CreatePanel::WriteForAnalyze()
+{
+	if (layout_name->GetValue() == "") 
+	{
 		layout_name->SetValue("tmp");
 	}
 	wxString path = "layouts/" + layout_name->GetValue();
 	ofstream f(path.ToStdString());
 	
-	if (f.is_open()) {
-
+	if (f.is_open()) 
+	{
 		f << layout_name->GetValue() << endl;
 
 		map<wxBoxSizer*, vector<wxButton*>>::iterator iter = keys.begin();
 		
-		for (int i = 1; i < 13; i++) {
+		for (int i = 1; i < 13; i++) 
+		{
 			f << iter->second[i]->GetLabel() << " ";
 		}
 		f << endl;
 		iter++;
 
-		for (int i = 1; i < 12; i++) {
+		for (int i = 1; i < 12; i++) 
+		{
 			f << iter->second[i]->GetLabel() << " ";
 		}
 		f << endl;
 		iter++;
 
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i < 11; i++) 
+		{
 			f << iter->second[i]->GetLabel() << " ";
 		}
 		f << endl;
@@ -225,16 +241,21 @@ void CreatePanel::WriteForAnalyze() {
 	}
 }
 
-void CreatePanel::Export(wxCommandEvent& evt) {
-	if (layout_name->GetValue() == "") {
+void CreatePanel::Export(wxCommandEvent& evt)
+{
+	if (layout_name->GetValue() == "")
+	{
 		layout_name->SetValue("tmp");
 	}
 
 	vector<wxButton*> keys_vector;
 	map<wxBoxSizer*, vector<wxButton*>>::iterator iter = keys.begin();
-	for (; iter != keys.end(); iter++) {
-		for (int i = 0; i < iter->second.size(); i++) {
-			if (iter->second[i]->GetId() > 0) {
+	for (; iter != keys.end(); iter++)
+	{
+		for (int i = 0; i < iter->second.size(); i++)
+		{
+			if (iter->second[i]->GetId() > 0)
+			{
 				keys_vector.push_back(iter->second[i]);
 			}
 		}

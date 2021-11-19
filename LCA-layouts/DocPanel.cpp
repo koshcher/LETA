@@ -6,6 +6,7 @@ DocPanel::DocPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY)
 	doc->SetLabel("");
 }
 
-DocPanel::~DocPanel() {
+DocPanel::~DocPanel() 
+{
 	delete doc;
 }
