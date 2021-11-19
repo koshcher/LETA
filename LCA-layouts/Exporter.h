@@ -49,35 +49,243 @@ public:
 
 	void Export_xmodmap(wxTextOutputStream& txt) {
 		txt << "! xmodmap for the " + title + " layout" << endl << endl
-			<< "keycode  49 = grave    asciitilde       dead_tilde        asciitilde" << endl
-			<< "keycode  10 = 1        exclam       exclamdown       onesuperior" << endl
-			<< "keycode  11 = 2            at        masculine       twosuperior" << endl
-			<< "keycode  12 = 3    numbersign      ordfeminine     threesuperior" << endl
-			<< "keycode  13 = 4        dollar             cent          sterling" << endl
-			<< "keycode  14 = 5       percent         EuroSign               yen" << endl
-			<< "keycode  15 = 6   asciicircum          hstroke           Hstroke" << endl
-			<< "keycode  16 = 7     ampersand              eth               ETH" << endl
-			<< "keycode  17 = 8      asterisk            thorn             THORN" << endl
-			<< "keycode  18 = 9     parenleft   leftsinglequotemark   leftdoublequotemark" << endl
-			<< "keycode  19 = 0    parenright  rightsinglequotemark   rightdoublequotemark" << endl
-			<< "keycode  20 = minus    underscore           endash            emdash" << endl
-			<< "keycode  21 = equal          plus         multiply          division" << endl << endl;
+			<< "keycode  49 =        grave    asciitilde       dead_tilde        asciitilde" << endl
+			<< "keycode  10 =            1        exclam       exclamdown       onesuperior" << endl
+			<< "keycode  11 =            2            at        masculine       twosuperior" << endl
+			<< "keycode  12 =            3    numbersign      ordfeminine     threesuperior" << endl
+			<< "keycode  13 =            4        dollar             cent          sterling" << endl
+			<< "keycode  14 =            5       percent         EuroSign               yen" << endl
+			<< "keycode  15 =            6   asciicircum          hstroke           Hstroke" << endl
+			<< "keycode  16 =            7     ampersand              eth               ETH" << endl
+			<< "keycode  17 =            8      asterisk            thorn             THORN" << endl
+			<< "keycode  18 =            9     parenleft   leftsinglequotemark   leftdoublequotemark" << endl
+			<< "keycode  19 =            0    parenright  rightsinglequotemark   rightdoublequotemark" << endl
+			<< "keycode  20 =        minus    underscore           endash            emdash" << endl
+			<< "keycode  21 =        equal          plus         multiply          division" << endl << endl;
 
 		map<char, string>::iterator xmodmap_key;
 		for (int i = 0; i < keys.size(); i++)
 		{
+			int id = keys[i]->GetId();
 			xmodmap_key = xmodmap_keys.find(keys[i]->GetLabel().c_str()[0]);
 			if (xmodmap_key != xmodmap_keys.end())
 			{
-				txt << "keycode  " << keys[i]->GetId() << " =" << xmodmap_key->second << endl;
+				txt << "keycode  " << id << " =" << xmodmap_key->second << endl;
+			}
+			if (id == 51 || id == 48 || id == 61) {
+				txt << endl;
 			}
 		}
 
-		txt << "keycode  66 =    BackSpace        Escape        BackSpace         BackSpace" << endl
+		txt << "keycode  66 =    BackSpace     BackSpace        BackSpace         BackSpace" << endl
 			<< "keycode  94 =        minus    underscore           endash            emdash" << endl
 			<< "keycode  65 =        space         space            space      nobreakspace" << endl
 			<< "keycode 113 =  Mode_switch   Mode_switch" << endl
-			<< "clear Lock" << endl;
+			<< "clear Lock" << endl 
+			<< endl
+			<< "!clear Shift" << endl
+			<< "!clear Control" << endl
+			<< "!clear Mod1" << endl
+			<< "!clear Mod2" << endl
+			<< "!clear Mod3" << endl
+			<< "!clear Mod4" << endl
+			<< "!clear Mod5" << endl 
+			<< endl
+			<< "!add    Shift = Shift_L Shift_R" << endl
+			<< "!add    Control = Control_L Control_R" << endl
+			<< "!add    Mod1 = Alt_L Alt_R" << endl
+			<< "!add    Mod2 = Num_Lock" << endl
+			<< "!add    Mod4 = Meta_L Meta_R" << endl
+			<< "!add    Mod5 = Scroll_Lock" << endl << endl
+			<< "!keycode   9 = Escape" << endl
+			<< "!keycode  22 = BackSpace Terminate_Server" << endl
+			<< "!keycode  23 = Tab ISO_Left_Tab" << endl
+			<< "!keycode  36 = Return" << endl
+			<< "!keycode  37 = Control_L" << endl
+			<< "!keycode  50 = Shift_L" << endl
+			<< "!keycode  62 = Shift_R" << endl
+			<< "!keycode  63 = KP_Multiply XF86_ClearGrab" << endl
+			<< "!keycode  64 = Alt_L Meta_L" << endl
+			<< "!keycode  67 = F1 XF86_Switch_VT_1" << endl
+			<< "!keycode  68 = F2 XF86_Switch_VT_2" << endl
+			<< "!keycode  69 = F3 XF86_Switch_VT_3" << endl
+			<< "!keycode  70 = F4 XF86_Switch_VT_4" << endl
+			<< "!keycode  71 = F5 XF86_Switch_VT_5" << endl
+			<< "!keycode  72 = F6 XF86_Switch_VT_6" << endl
+			<< "!keycode  73 = F7 XF86_Switch_VT_7" << endl
+			<< "!keycode  74 = F8 XF86_Switch_VT_8" << endl
+			<< "!keycode  75 = F9 XF86_Switch_VT_9" << endl
+			<< "!keycode  76 = F10 XF86_Switch_VT_10" << endl
+			<< "!keycode  95 = F11 XF86_Switch_VT_11" << endl
+			<< "!keycode  96 = F12 XF86_Switch_VT_12" << endl
+			<< "!keycode  77 = Num_Lock Pointer_EnableKeys" << endl
+			<< "!keycode  78 = Scroll_Lock" << endl
+			<< "!keycode  79 = KP_Home KP_7" << endl
+			<< "!keycode  80 = KP_Up KP_8" << endl
+			<< "!keycode  81 = KP_Prior KP_9" << endl
+			<< "!keycode  82 = KP_Subtract XF86_Prev_VMode" << endl
+			<< "!keycode  83 = KP_Left KP_4" << endl
+			<< "!keycode  84 = KP_Begin KP_5" << endl
+			<< "!keycode  85 = KP_Right KP_6" << endl
+			<< "!keycode  86 = KP_Add XF86_Next_VMode" << endl
+			<< "!keycode  87 = KP_End KP_1" << endl
+			<< "!keycode  88 = KP_Down KP_2" << endl
+			<< "!keycode  89 = KP_Next KP_3" << endl
+			<< "!keycode  90 = KP_Insert KP_0" << endl
+			<< "!keycode  91 = KP_Delete KP_Decimal" << endl
+			<< "!keycode  92 = Print Sys_Req" << endl
+			<< "!keycode  93 = Mode_switch" << endl
+			<< "!keycode  97 = Home" << endl
+			<< "!keycode  98 = Up" << endl
+			<< "!keycode  99 = Prior" << endl
+			<< "!keycode 100 = Left" << endl
+			<< "!keycode 102 = Right" << endl
+			<< "!keycode 103 = End" << endl
+			<< "!keycode 104 = Down" << endl
+			<< "!keycode 105 = Next" << endl
+			<< "!keycode 106 = Insert" << endl
+			<< "!keycode 107 = Delete" << endl
+			<< "!keycode 108 = KP_Enter" << endl
+			<< "!keycode 109 = Control_R" << endl
+			<< "!keycode 110 = Pause Break" << endl
+			<< "!keycode 111 = Print Sys_Req" << endl
+			<< "!keycode 112 = KP_Divide XF86_Ungrab" << endl
+			<< "!keycode 114 = Pause Break" << endl
+			<< "!keycode 115 = Super_L" << endl
+			<< "!keycode 116 = Super_R" << endl
+			<< "!keycode 117 = Menu" << endl
+			<< "!keycode 124 = ISO_Level3_Shift" << endl
+			<< "!keycode 125 = NoSymbol Alt_L" << endl
+			<< "!keycode 126 = KP_Equal" << endl
+			<< "!keycode 127 = NoSymbol Super_L" << endl
+			<< "!keycode 128 = NoSymbol Hyper_L" << endl
+			<< "!keycode 156 = NoSymbol Meta_L" << endl 
+			<< endl
+			<< "!keycode   8 =" << endl
+			<< "!keycode 101 =" << endl
+			<< "!keycode 118 =" << endl
+			<< "!keycode 119 =" << endl
+			<< "!keycode 120 =" << endl
+			<< "!keycode 121 =" << endl
+			<< "!keycode 122 =" << endl
+			<< "!keycode 123 =" << endl
+			<< "!keycode 129 =" << endl
+			<< "!keycode 130 =" << endl
+			<< "!keycode 131 =" << endl
+			<< "!keycode 132 =" << endl
+			<< "!keycode 133 =" << endl
+			<< "!keycode 134 =" << endl
+			<< "!keycode 135 =" << endl
+			<< "!keycode 136 =" << endl
+			<< "!keycode 137 =" << endl
+			<< "!keycode 138 =" << endl
+			<< "!keycode 139 =" << endl
+			<< "!keycode 140 =" << endl
+			<< "!keycode 141 =" << endl
+			<< "!keycode 142 =" << endl
+			<< "!keycode 143 =" << endl
+			<< "!keycode 144 =" << endl
+			<< "!keycode 145 =" << endl
+			<< "!keycode 146 =" << endl
+			<< "!keycode 147 =" << endl
+			<< "!keycode 148 =" << endl
+			<< "!keycode 149 =" << endl
+			<< "!keycode 150 =" << endl
+			<< "!keycode 151 =" << endl
+			<< "!keycode 152 =" << endl
+			<< "!keycode 153 =" << endl
+			<< "!keycode 154 =" << endl
+			<< "!keycode 155 =" << endl
+			<< "!keycode 157 =" << endl
+			<< "!keycode 158 =" << endl
+			<< "!keycode 159 =" << endl
+			<< "!keycode 160 =" << endl
+			<< "!keycode 161 =" << endl
+			<< "!keycode 162 =" << endl
+			<< "!keycode 163 =" << endl
+			<< "!keycode 164 =" << endl
+			<< "!keycode 165 =" << endl
+			<< "!keycode 166 =" << endl
+			<< "!keycode 167 =" << endl
+			<< "!keycode 168 =" << endl
+			<< "!keycode 169 =" << endl
+			<< "!keycode 170 =" << endl
+			<< "!keycode 171 =" << endl
+			<< "!keycode 172 =" << endl
+			<< "!keycode 173 =" << endl
+			<< "!keycode 174 =" << endl
+			<< "!keycode 175 =" << endl
+			<< "!keycode 176 =" << endl
+			<< "!keycode 177 =" << endl
+			<< "!keycode 178 =" << endl
+			<< "!keycode 179 =" << endl
+			<< "!keycode 180 =" << endl
+			<< "!keycode 181 =" << endl
+			<< "!keycode 182 =" << endl
+			<< "!keycode 183 =" << endl
+			<< "!keycode 184 =" << endl
+			<< "!keycode 185 =" << endl
+			<< "!keycode 186 =" << endl
+			<< "!keycode 187 =" << endl
+			<< "!keycode 188 =" << endl
+			<< "!keycode 189 =" << endl
+			<< "!keycode 190 =" << endl
+			<< "!keycode 191 =" << endl
+			<< "!keycode 192 =" << endl
+			<< "!keycode 193 =" << endl
+			<< "!keycode 194 =" << endl
+			<< "!keycode 195 =" << endl
+			<< "!keycode 196 =" << endl
+			<< "!keycode 197 =" << endl
+			<< "!keycode 198 =" << endl
+			<< "!keycode 199 =" << endl
+			<< "!keycode 200 =" << endl
+			<< "!keycode 201 =" << endl
+			<< "!keycode 202 =" << endl
+			<< "!keycode 203 =" << endl
+			<< "!keycode 204 =" << endl
+			<< "!keycode 205 =" << endl
+			<< "!keycode 206 =" << endl
+			<< "!keycode 207 =" << endl
+			<< "!keycode 208 =" << endl
+			<< "!keycode 209 =" << endl
+			<< "!keycode 210 =" << endl
+			<< "!keycode 211 =" << endl
+			<< "!keycode 212 =" << endl
+			<< "!keycode 213 =" << endl
+			<< "!keycode 214 =" << endl
+			<< "!keycode 215 =" << endl
+			<< "!keycode 216 =" << endl
+			<< "!keycode 217 =" << endl
+			<< "!keycode 218 =" << endl
+			<< "!keycode 219 =" << endl
+			<< "!keycode 220 =" << endl
+			<< "!keycode 221 =" << endl
+			<< "!keycode 222 =" << endl
+			<< "!keycode 223 =" << endl
+			<< "!keycode 224 =" << endl
+			<< "!keycode 225 =" << endl
+			<< "!keycode 226 =" << endl
+			<< "!keycode 227 =" << endl
+			<< "!keycode 228 =" << endl
+			<< "!keycode 229 =" << endl
+			<< "!keycode 230 =" << endl
+			<< "!keycode 231 =" << endl
+			<< "!keycode 232 =" << endl
+			<< "!keycode 233 =" << endl
+			<< "!keycode 234 =" << endl
+			<< "!keycode 235 =" << endl
+			<< "!keycode 236 =" << endl
+			<< "!keycode 237 =" << endl
+			<< "!keycode 238 =" << endl
+			<< "!keycode 239 =" << endl
+			<< "!keycode 240 =" << endl
+			<< "!keycode 241 =" << endl
+			<< "!keycode 242 =" << endl
+			<< "!keycode 243 =" << endl
+			<< "!keycode 244 =" << endl << "!keycode 245 =" << endl << "!keycode 246 =" << endl << "!keycode 247 =" << endl
+			<< "!keycode 248 =" << endl << "!keycode 249 =" << endl << "!keycode 250 =" << endl << "!keycode 251 =" << endl
+			<< "!keycode 252 =" << endl << "!keycode 253 =" << endl << "!keycode 254 =" << endl << "!keycode 255 =" << endl;
 	}
 
 	void Export_autohotkey(wxTextOutputStream& txt) {
@@ -506,7 +714,7 @@ map<char, string> Exporter::xmodmap_keys {
 	{'i', "            i             I           iacute            Iacute"},
 	{'\'',"   apostrophe      quotedbl           otilde            Otilde"},
 	{'z', "            z             Z               ae                AE"},
-	{'x', "            x             X  dead_circumflex        asciitild"},
+	{'x', "            x             X  dead_circumflex        asciitilde"},
 	{'m', "            m             M      dead_macron        asciitilde"},
 	{'c', "            c             C         ccedilla          Ccedilla"},
 	{'v', "            v             V               oe                OE"},
