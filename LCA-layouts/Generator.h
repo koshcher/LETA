@@ -13,9 +13,9 @@ using namespace std;
 class Generator
 {
 private:
-	vector<string> all_words;
-	vector<string> text;
-    int quantity;
+	vector<string> _allWords;
+	vector<string> _text;
+    int _quantity;
 
 public:
 	Generator()
@@ -32,7 +32,7 @@ public:
         {
             while (getline(in, line))
             {
-                all_words.push_back(line);
+                _allWords.push_back(line);
             }
         }
         in.close();
@@ -40,21 +40,21 @@ public:
 
     void GenText(const int& quantity) 
     {
-        this->quantity = quantity;
-        text.clear();
+        this->_quantity = quantity;
+        _text.clear();
         for (int i = 0; i < quantity; i++) 
         {
-            text.push_back(all_words[rand() % all_words.size()]);
+            _text.push_back(_allWords[rand() % _allWords.size()]);
         }
     }
 
     string GetText() 
     {
         string res;
-        for (int i = 0; i < quantity; i++) 
+        for (int i = 0; i < _quantity; i++) 
         {
-            res += text[i];
-            if (i < (quantity - 1)) 
+            res += _text[i];
+            if (i < (_quantity - 1)) 
             {
                 res += ' ';
             }
@@ -62,8 +62,8 @@ public:
         return res;
     }
 
-    const vector<string>& GetWords() { return text; }
-    int GetCount() { return quantity; }
+    const vector<string>& GetWords() { return _text; }
+    int GetCount() { return _quantity; }
 
 };
 

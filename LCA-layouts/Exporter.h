@@ -13,45 +13,45 @@ using namespace std;
 class Exporter
 {
 private:
-	vector<wxButton*> keys;
-	string title;
-	static map<char, string> xmodmap_keys;
-	static vector<string> autohotkey_keys;
-	static map<char, string> klc_keys;
-	static map<int, int> mac_keys;
-	static map<char, string> mac_upper;
+	vector<wxButton*> _keys;
+	string _title;
+	static map<char, string> xmodmapKeys;
+	static vector<string> autohotkeyKeys;
+	static map<char, string> windowsKeys;
+	static map<int, int> macKeys;
+	static map<char, string> macUpperKeys;
 
 public:
 	Exporter(const string& title, vector<wxButton*>& keys) 
 	{
-		this->title = title;
-		this->keys = keys;
+		_title = title;
+		_keys = keys;
 	}
 
 	void Export() 
 	{
-		wxFFileOutputStream out(title + ".zip");
+		wxFFileOutputStream out(_title + ".zip");
 		wxZipOutputStream zip(out);
 		wxTextOutputStream txt(zip);
 		
 		wxString sep(wxFileName::GetPathSeparator());
 		
-		zip.PutNextEntry("xmodmap" + sep + "xmodmap." + title);
+		zip.PutNextEntry("xmodmap" + sep + "xmodmap." + _title);
 		Export_xmodmap(txt);
 		
-		zip.PutNextEntry("autohotkey" + sep + "QWERTY_to_" + title + ".ahk");
+		zip.PutNextEntry("autohotkey" + sep + "QWERTY_to_" + _title + ".ahk");
 		Export_autohotkey(txt);
 
-		zip.PutNextEntry("windows" + sep + title + ".klc");
+		zip.PutNextEntry("windows" + sep + _title + ".klc");
 		Export_windows(txt);
 
-		zip.PutNextEntry("mac" + sep + title + ".keylayout");
+		zip.PutNextEntry("mac" + sep + _title + ".keylayout");
 		Export_mac(txt);
 	}
 
 	void Export_xmodmap(wxTextOutputStream& txt) 
 	{
-		txt << "! xmodmap for the " + title + " layout" << endl << endl
+		txt << "! xmodmap for the " + _title + " layout" << endl << endl
 			<< "keycode  49 =        grave    asciitilde       dead_tilde        asciitilde" << endl
 			<< "keycode  10 =            1        exclam       exclamdown       onesuperior" << endl
 			<< "keycode  11 =            2            at        masculine       twosuperior" << endl
@@ -67,11 +67,11 @@ public:
 			<< "keycode  21 =        equal          plus         multiply          division" << endl << endl;
 
 		map<char, string>::iterator xmodmap_key;
-		for (int i = 0; i < keys.size(); i++)
+		for (int i = 0; i < _keys.size(); i++)
 		{
-			int id = keys[i]->GetId();
-			xmodmap_key = xmodmap_keys.find(keys[i]->GetLabel().c_str()[0]);
-			if (xmodmap_key != xmodmap_keys.end())
+			int id = _keys[i]->GetId();
+			xmodmap_key = xmodmapKeys.find(_keys[i]->GetLabel().c_str()[0]);
+			if (xmodmap_key != xmodmapKeys.end())
 			{
 				txt << "keycode  " << id << " =" << xmodmap_key->second << endl;
 			}
@@ -294,7 +294,7 @@ public:
 
 	void Export_autohotkey(wxTextOutputStream& txt) 
 	{
-		txt << "; " + title + " layout for AutoHotkey (MS Windows)" << endl << endl
+		txt << "; " + _title + " layout for AutoHotkey (MS Windows)" << endl << endl
 			<< "; For this to work you have to make sure that the US (QWERTY) layout is installed," << endl
 			<< "; that is set as the default layout, and that it is set as the current layout." << endl
 			<< "; Otherwise some of the key mappings will be wrong." << endl << endl
@@ -304,16 +304,16 @@ public:
 			<< endl << ";-::-" << endl << ";=::=" << endl;
 
 		int ahk_index = 0;
-		for (int i = 0; i < keys.size() && ahk_index < Exporter::autohotkey_keys.size(); i++)
+		for (int i = 0; i < _keys.size() && ahk_index < Exporter::autohotkeyKeys.size(); i++)
 		{
-			if (keys[i]->GetId() > 0) {
-				if (keys[i]->GetLabel() == ";")
+			if (_keys[i]->GetId() > 0) {
+				if (_keys[i]->GetLabel() == ";")
 				{
-					txt << Exporter::autohotkey_keys[ahk_index] << "::`" << keys[i]->GetLabel() << endl;
+					txt << Exporter::autohotkeyKeys[ahk_index] << "::`" << _keys[i]->GetLabel() << endl;
 				}
 				else
 				{
-					txt << Exporter::autohotkey_keys[ahk_index] << "::" << keys[i]->GetLabel() << endl;
+					txt << Exporter::autohotkeyKeys[ahk_index] << "::" << _keys[i]->GetLabel() << endl;
 				}
 				ahk_index++;
 			}
@@ -323,7 +323,7 @@ public:
 	void Export_windows(wxTextOutputStream& txt) 
 	{
 		// info
-		txt << "KBD \"EN " + title + "\"" << endl << endl
+		txt << "KBD \"EN " + _title + "\"" << endl << endl
 			<< "COPYRIGHT	\"(c)2021 Company\"" << endl << endl
 			<< "COMPANY	\"Company\"" << endl << endl
 			<< "LOCALENAME	\"en-US\"" << endl << endl
@@ -355,31 +355,31 @@ public:
 		int i = 0;
 		while (i < 10) 
 		{
-			klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
-			if (klc_key != klc_keys.end())
+			klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
+			if (klc_key != windowsKeys.end())
 			{
 				txt << (i + 10) << " " << klc_key->second << endl;
 			}
 			i++;
 		}
 
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "1a " << klc_key->second << endl;
 		i++;
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "1b " << klc_key->second << endl;
 		i += 2;
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "1e " << klc_key->second << endl;
 		i++;
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "1f " << klc_key->second << endl;
 		i++;
 
 		while (i < 24) 
 		{
-			klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
-			if (klc_key != klc_keys.end())
+			klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
+			if (klc_key != windowsKeys.end())
 			{
 				txt << (i + 5) << " " << klc_key->second << endl;
 			}
@@ -389,23 +389,23 @@ public:
 		txt << "29 OEM_3		0	0060	007e	-1		// GRAVE ACCENT, TILDE, <none>" << endl
 			<< "2b OEM_5		0	005c	007c	001c		// REVERSE SOLIDUS, VERTICAL LINE, INFORMATION SEPARATOR FOUR" << endl;
 
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "2c " << klc_key->second << endl;
 		i++;
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "2d " << klc_key->second << endl;
 		i++;
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "2e " << klc_key->second << endl;
 		i++;
-		klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
+		klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
 		txt << "2f " << klc_key->second << endl;
 		i++;
 
 		while (i < 34) 
 		{
-			klc_key = klc_keys.find(keys[i]->GetLabel().c_str()[0]);
-			if (klc_key != klc_keys.end())
+			klc_key = windowsKeys.find(_keys[i]->GetLabel().c_str()[0]);
+			if (klc_key != windowsKeys.end())
 			{
 				txt << (i + 2) << " " << klc_key->second << endl;
 			}
@@ -429,13 +429,13 @@ public:
 			<< "4d	Right" << endl << "4f	End" << endl << "50	Down" << endl << "51	\"Page Down\"" << endl << "52	Insert" << endl << "53	Delete" << endl
 			<< "54 < 00 >" << endl << "56	Help" << endl << "5b	\"Left Windows\"" << endl << "5c	\"Right Windows\"" << endl << "5d	Application" << endl << endl
 			<< "DESCRIPTIONS" << endl << endl
-			<< "0409	United States " + title << endl << endl << "LANGUAGENAMES" << endl << endl << "0409	English (United States)" << endl << endl << "ENDKBD";
+			<< "0409	United States " + _title << endl << endl << "LANGUAGENAMES" << endl << endl << "0409	English (United States)" << endl << endl << "ENDKBD";
 	}
 
 	void Export_mac(wxTextOutputStream& txt) {
 		txt << "<?xml version=\"1.1\" encoding=\"UTF-8\"?>" << endl
 			<< "<!DOCTYPE keyboard SYSTEM \"file://localhost/System/Library/DTDs/KeyboardLayout.dtd\">" << endl
-			<< "<keyboard group=\"126\" id=\"-8853\" name=\"" + title + "\" maxout=\"1\">" << endl
+			<< "<keyboard group=\"126\" id=\"-8853\" name=\"" + _title + "\" maxout=\"1\">" << endl
 			<< "	<layouts>" << endl
 			<< "		<layout first=\"0\" last=\"17\" mapSet=\"ANSI\" modifiers=\"Modifiers\"/>" << endl
 			<< "        <layout first=\"18\" last=\"18\" mapSet=\"JIS\" modifiers=\"Modifiers\"/>" << endl
@@ -502,12 +502,12 @@ public:
 				{
 					for (int code = 0; code < 10; code++)
 					{
-						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+						txt << "            <key code=\"" << code << "\" output=\"" << _keys[macKeys.find(code)->second]->GetLabel() << "\"/>" << endl;
 					}
 					txt << "            <key code=\"10\" output=\"§\"/>" << endl;
 					for (int code = 11; code < 18; code++)
 					{
-						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+						txt << "            <key code=\"" << code << "\" output=\"" << _keys[macKeys.find(code)->second]->GetLabel() << "\"/>" << endl;
 					}
 					txt << "            <key code=\"18\" output=\"1\"/>" << endl
 						<< "            <key code=\"19\" output=\"2\"/>" << endl
@@ -523,17 +523,17 @@ public:
 						<< "            <key code=\"29\" output=\"0\"/>" << endl;
 					for (int code = 30; code < 36; code++)
 					{
-						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+						txt << "            <key code=\"" << code << "\" output=\"" << _keys[macKeys.find(code)->second]->GetLabel() << "\"/>" << endl;
 					}
 					txt << "            <key code=\"36\" output=\"&#x000D;\"/>" << endl;
 					for (int code = 37; code < 42; code++) 
 					{
-						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+						txt << "            <key code=\"" << code << "\" output=\"" << _keys[macKeys.find(code)->second]->GetLabel() << "\"/>" << endl;
 					}
 					txt << "            <key code=\"42\" output=\"\\\"/>" << endl;
 					for (int code = 43; code < 48; code++)
 					{
-						txt << "            <key code=\"" << code << "\" output=\"" << keys[mac_keys.find(code)->second]->GetLabel() << "\"/>" << endl;
+						txt << "            <key code=\"" << code << "\" output=\"" << _keys[macKeys.find(code)->second]->GetLabel() << "\"/>" << endl;
 					}
 				}
 				else
@@ -541,27 +541,27 @@ public:
 					map<char, string>::iterator paste_char;
 					for (int code = 0; code < 10; code++)
 					{
-						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
-						if (paste_char != mac_upper.end())
+						paste_char = macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != macUpperKeys.end())
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
 						}
 						else 
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
 						}
 					}
 					txt << "            <key code=\"10\" output=\"§\"/>" << endl;
 					for (int code = 11; code < 18; code++)
 					{
-						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
-						if (paste_char != mac_upper.end())
+						paste_char = macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != macUpperKeys.end())
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
 						}
 						else 
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
 						}
 					}
 					txt << "            <key code=\"18\" output=\"!\"/>" << endl
@@ -578,40 +578,40 @@ public:
 						<< "            <key code=\"29\" output=\")\"/>" << endl;
 					for (int code = 30; code < 36; code++)
 					{
-						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
-						if (paste_char != mac_upper.end())
+						paste_char = macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != macUpperKeys.end())
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
 						}
 						else 
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
 						}
 					}
 					txt << "            <key code=\"36\" output=\"&#x000D;\"/>" << endl;
 					for (int code = 37; code < 42; code++) 
 					{
-						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
-						if (paste_char != mac_upper.end())
+						paste_char = macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != macUpperKeys.end())
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
 						}
 						else
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
 						}
 					}
 					txt << "            <key code=\"42\" output=\"|\"/>" << endl;
 					for (int code = 43; code < 48; code++)
 					{
-						paste_char = mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]);
-						if (paste_char != mac_upper.end()) 
+						paste_char = macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]);
+						if (paste_char != macUpperKeys.end()) 
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << mac_upper.find(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << macUpperKeys.find(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0])->second << "\"/>" << endl;
 						}
 						else 
 						{
-							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(keys[mac_keys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
+							txt << "            <key code=\"" << code << "\" output=\"" << (char)toupper(_keys[macKeys.find(code)->second]->GetLabel().c_str()[0]) << "\"/>" << endl;
 						}
 					}
 				}
@@ -706,7 +706,7 @@ public:
 	}
 };
 
-map<int, int> Exporter::mac_keys
+map<int, int> Exporter::macKeys
 {
 	{0, 13}, {1, 14}, {2, 15}, {3, 16}, {4, 18}, {5, 17}, {6, 24}, {7, 25}, {8, 26}, {9, 27},
 	{11, 28}, {12, 0}, {13, 1}, {14, 2}, {15, 3}, {16, 5}, {17, 4}, {30, 11}, {31, 8},
@@ -714,12 +714,12 @@ map<int, int> Exporter::mac_keys
 	{43, 31}, {44, 33}, {45, 29}, {46, 30}, {47, 32}
 };
 
-map<char, string> Exporter::mac_upper
+map<char, string> Exporter::macUpperKeys
 {
 	{'[', "{"}, {']', "}"}, {'\'',"&#x0022;"}, {';',":"}, {',',"&#x003C;"}, {'.',"&#x003E;"}, {'/',"?"}
 };
 
-map<char, string> Exporter::xmodmap_keys 
+map<char, string> Exporter::xmodmapKeys 
 {
 	{'q', "            q             Q       adiaeresis        Adiaeresis"},
 	{'d', "            d             D   dead_diaeresis        asciitilde"},
@@ -757,14 +757,14 @@ map<char, string> Exporter::xmodmap_keys
 	{'/', "        slash      question     questiondown        asciitilde"}
 };
 
-vector<string> Exporter::autohotkey_keys
+vector<string> Exporter::autohotkeyKeys
 {
 	"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
 	"a", "s", "d", "f", "g", "h", "j", "k", "l", "SC027", "'",
 	"z", "x", "c", "v", "b", "n", "m", ",", ".", "/"
 };
 
-map<char, string> Exporter::klc_keys
+map<char, string> Exporter::windowsKeys
 {
 	{'q', "Q		1	q	Q	-1		// LATIN SMALL LETTER Q, LATIN CAPITAL LETTER Q, <none>"},
 	{'d', "D		1	d	D	-1		// LATIN SMALL LETTER D, LATIN CAPITAL LETTER D, <none>"},

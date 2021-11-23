@@ -13,11 +13,11 @@ using namespace std;
 class Main : public wxFrame
 {
 public: // компоненты
-	wxNotebook* notebook = nullptr;
+	wxNotebook* _notebook = nullptr;
 
-	TypePanel* type_panel = nullptr;
-	CreatePanel* create_panel = nullptr;
-	DocPanel* doc_panel = nullptr;
+	TypePanel* _typePanel = nullptr;
+	CreatePanel* _createPanel = nullptr;
+	DocPanel* _docPanel = nullptr;
 
 
 public:

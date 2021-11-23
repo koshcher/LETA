@@ -7,7 +7,7 @@ class DocPanel : public wxPanel
 {
 public:
 	// Components
-	wxStaticText* doc;
+	wxStaticText* _doc;
 
 	// Functions
 	DocPanel(wxWindow* parent);

@@ -1,3 +1,10 @@
+/*
+	* File: CreatePanel.h
+	* Description: header of panel for layout creating, analyze and export
+	* Created: 29 October 2021
+	* Author: Roman Koshchey
+*/
+
 #ifndef CREATE_PANEL_H
 #define CREATE_PANEL_H
 
@@ -11,15 +18,15 @@ class CreatePanel : public wxPanel
 {
 public:
 	// Components UI
-	wxBoxSizer* create_row_sizer = nullptr;
-	map<wxBoxSizer*, vector<wxButton*>> keys;
+	wxBoxSizer* _createRowSizer = nullptr;
+	map<wxBoxSizer*, vector<wxButton*>> _keys;
 
-	bool isKeyPressed = false;
-	wxWindow* previous_key = nullptr;
+	bool _isKeyPressed = false;
+	wxWindow* _previousKey = nullptr;
 
-	wxButton* analyze_btn = nullptr;
-	wxButton* export_btn = nullptr;
-	wxTextCtrl* layout_name = nullptr;
+	wxButton* _analyzeBtn = nullptr;
+	wxButton* _exportBtn = nullptr;
+	wxTextCtrl* _layoutName = nullptr;
 
 
 	// Functions

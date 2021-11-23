@@ -6,55 +6,55 @@
 class Test
 {
 private:
-	int all_words;
-	int right_words;
-	double time;
+	int _allWordsCount;
+	int _rightWordsCount;
+	double _time;
 
-	int wpm;
-	int acc;
+	int _wpm;
+	int _acc;
 
 public:
-	Test() : right_words{ 0 }, all_words{ 0 }, time{ 1 }, wpm{ 0 }, acc{ 0 } {}
+	Test() : _rightWordsCount{ 0 }, _allWordsCount{ 0 }, _time{ 1 }, _wpm{ 0 }, _acc{ 0 } {}
 
 	void SetTime(double timer)
 	{
-		time = timer;
+		_time = timer;
 	}
 
 	void SetWords(int all_words_count) 
 	{
-		all_words = all_words_count;
+		_allWordsCount = all_words_count;
 	}
 
 	void Reset() 
 	{
-		all_words = 0;
-		right_words = 0;
-		time = 1;
-		wpm = 0; 
-		acc = 0;
+		_allWordsCount = 0;
+		_rightWordsCount = 0;
+		_time = 1;
+		_wpm = 0; 
+		_acc = 0;
 	}
 
 	void operator++(int) 
 	{
-		right_words++;
+		_rightWordsCount++;
 	}
 
 	void Result() 
 	{
-		wpm = right_words * (60 / time) * (-1);
-		if (all_words == 0)
+		_wpm = _rightWordsCount * (60 / _time) * (-1);
+		if (_allWordsCount == 0)
 		{
-			acc = 0;
+			_acc = 0;
 		}
 		else 
 		{
-			acc = (right_words * 1.0 / all_words * 1.0) * 100;
+			_acc = (_rightWordsCount * 1.0 / _allWordsCount * 1.0) * 100;
 		}
 	}
 	
-	int WPM() { return wpm; }
-	int ACC() { return acc; }
+	int WPM() { return _wpm; }
+	int ACC() { return _acc; }
 };
 
 #endif
