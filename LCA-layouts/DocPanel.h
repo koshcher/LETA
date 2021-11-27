@@ -7,7 +7,9 @@ class DocPanel : public wxPanel
 {
 public:
 	// Components
-	wxStaticText* _doc;
+	wxStaticText* _typeDoc;
+	wxStaticText* _createDoc;
+	wxBoxSizer* _sizer;
 
 	// Functions
 	DocPanel(wxWindow* parent);
