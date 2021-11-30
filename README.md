@@ -13,6 +13,6 @@ Made with [contributors-img](https://contrib.rocks).
 
 ## License
 
-Licensed under the MIT License, Copyright © 2020-present Arvid Nicolaas.
+Licensed under the GNU General Public License
 
 See [LICENSE](./LICENSE) for more information.
