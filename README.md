@@ -2,7 +2,7 @@
 An app for:
   - Practising touch typing
   - Create and analyze layouts
-  - Export lyouts for all OS (Linux, Windows, macOS)
+  - Export lyouts for all popular OS (Linux, Windows, macOS)
 
 ## Contributors
 <a href="https://github.com/koshcher/LETA/graphs/contributors">
