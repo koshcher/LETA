@@ -1,3 +1,5 @@
+![This is an image](https://repository-images.githubusercontent.com/421353658/6c612eb6-3582-4908-a216-6049455a1b6a)
+
 # LETA
 An app for:
   - Practising touch typing
